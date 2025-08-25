@@ -27,10 +27,10 @@ class MapleApiOperator(BaseOperator):
 
         #Mssql Server connect
         hook = MsSqlHook(mssql_conn_id='conn-db-mssql-maple') #Airflow connection정보
-        sql = "EXEC [NexonMaple].dbo.SP_UPSERT_TABLE @table_nm = %s , @json =%s"
+        # sql = "EXEC SP_UPSERT_TABLE @table_nm = %s , @json =%s"
         table_nm = self.data_nm.replace('/','_')
         params=(table_nm,data)
-        hook.run(sql,parameters=params)
+        # hook.run(sql,parameters=params)
 
 
         
