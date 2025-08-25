@@ -1,6 +1,5 @@
 from airflow.models.baseoperator import BaseOperator
 from airflow.hooks.base import BaseHook
-import pandas as pd 
 
 class MapleApiOperator(BaseOperator):
     template_fields = ('headers','data_nm')
@@ -11,7 +10,7 @@ class MapleApiOperator(BaseOperator):
         예시: 캐릭터 목록 조회 api 호출시,
         data_nm = "character/list" 
         '''
-
+        super().__init__(**kwargs)
         self.base_url = 'https://open.api.nexon.com/maplestory/v1/'
         self.data_nm = data_nm
         self.headers =  {"x-nxopen-api-key" : "{{var.value.x-nxopen-api-key}}"}
@@ -29,7 +28,7 @@ class MapleApiOperator(BaseOperator):
         sql = "EXEC SP_UPSERT_TABLE @table_nm = %s , @json =%s"
         table_nm = self.data_nm.replace('/','_')
         params=(table_nm,data)
-        hook.run(sql,params=params)
+        hook.run(sql,parameters=params)
 
 
         
@@ -39,7 +38,6 @@ class MapleApiOperator(BaseOperator):
         import requests
         import json
 
-        headers=headers
         request_url=base_url+data_nm
 
         response=requests.get(request_url,headers=headers)
