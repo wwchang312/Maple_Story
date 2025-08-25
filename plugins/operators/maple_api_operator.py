@@ -26,7 +26,7 @@ class MapleApiOperator(BaseOperator):
         data = flat_json(con) #json 형식 데이터 평탄화 함수
 
         #Mssql Server connect
-        hook = OdbcHook(odbc_conn_id='conn-db-mssql-maple') #Airflow connection정보
+        hook = OdbcHook(odbc_conn_id='conn-db-mssql-maple',driver="ODBC Driver 17 for SQL Server")  #Airflow connection정보
         sql = "EXEC SP_UPSERT_TABLE @table_nm = ? , @json =?"
         table_nm = self.data_nm.replace('/','_')
         params=(table_nm,data)
