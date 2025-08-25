@@ -17,7 +17,7 @@ class MapleApiOperator(BaseOperator):
         
 
     def execute(self, context):
-        from common import flat_json
+        from common.flat_json import flat_json
         from airflow.providers.microsoft.mssql.hooks.mssql import MsSqlHook
 
         # self.log.info(f"[DEBUG] API headers: {self.headers}")
