@@ -3,7 +3,7 @@ from airflow.hooks.base import BaseHook
 import pandas as pd 
 
 class MapleApiOperator(BaseOperator):
-    template_fields = ('headers')
+    template_fields = ('headers','data_nm')
 
     def __init__(self,data_nm,**kwargs):
         '''
@@ -18,10 +18,10 @@ class MapleApiOperator(BaseOperator):
         
 
     def execute(self, context):
-        from operators.plugins.common import flat_json
+        from plugins.common import flat_json
         from airflow.providers.microsoft.mssql.hooks.mssql import MsSqlHook
 
-        con = _call_api(self.base_url,self.data_nm,self.headers)
+        con = self._call_api(self.base_url,self.data_nm,self.headers)
         data = flat_json(con) #json 형식 데이터 평탄화 함수
 
         #Mssql Server connect
