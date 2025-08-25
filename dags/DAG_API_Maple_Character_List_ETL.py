@@ -1,5 +1,5 @@
 from airflow import DAG
-from operators import maple_api_operator
+from operators import MapleApiOperator
 import pendulum
 
 with DAG(
@@ -11,7 +11,7 @@ with DAG(
     catchup=False
 ) as dag:
     
-    Maple_character_list_ETL_Task = maple_api_operator(
+    Maple_character_list_ETL_Task = MapleApiOperator(
         task_id='Maple_character_list_ETL_Task',
         data_nm='character/list'
     )
