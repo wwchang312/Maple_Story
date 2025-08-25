@@ -1,8 +1,8 @@
 from airflow.models.baseoperator import BaseOperator
 from airflow.hooks.base import BaseHook
+from airflow.models import Variable
 
 class MapleApiOperator(BaseOperator):
-    template_fields = ('headers','data_nm')
 
     def __init__(self,data_nm,**kwargs):
         '''
@@ -13,7 +13,7 @@ class MapleApiOperator(BaseOperator):
         super().__init__(**kwargs)
         self.base_url = 'https://open.api.nexon.com/maplestory/v1/'
         self.data_nm = data_nm
-        self.headers =  {"x-nxopen-api-key" : "{{var.value.x-nxopen-api-key}}"}
+        self.headers =  {"x-nxopen-api-key" : Variable.get("x-nxopen-api-key")}
         
 
     def execute(self, context):
