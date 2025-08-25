@@ -20,7 +20,7 @@ class MapleApiOperator(BaseOperator):
         from common import flat_json
         from airflow.providers.microsoft.mssql.hooks.mssql import MsSqlHook
 
-        self.log.info(f"[DEBUG] API headers: {self.headers}")
+        # self.log.info(f"[DEBUG] API headers: {self.headers}")
 
         con = self._call_api(self.base_url,self.data_nm,self.headers)
         data = flat_json(con) #json 형식 데이터 평탄화 함수
