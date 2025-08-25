@@ -1,10 +1,14 @@
-def flat_json(content=dict):
+def flat_json(content=None):
+
+    if content is None:
+        content = {}
+ 
     import json
     result=[]
     '''
     json 형식의 데이터가 중첩 및 서로 다른 깊이로 되어 있을 때, 이를 각각 1레벨의 json 형식으로 변경하는 함수
     '''
-    def flat_dict(con = dict, context=None):
+    def flat_dict(con = None, context=None):
         if context is None:
             context={}
             
