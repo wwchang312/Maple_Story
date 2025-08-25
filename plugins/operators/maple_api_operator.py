@@ -18,7 +18,7 @@ class MapleApiOperator(BaseOperator):
 
     def execute(self, context):
         from common.flat_json import flat_json
-        from airflow.providers.odbc.hooks.odbc import OdbcHook
+        from airflow.providers.microsoft.mssql.hooks.mssql import MsSqlHook
 
         # self.log.info(f"[DEBUG] API headers: {self.headers}")
 
@@ -26,12 +26,11 @@ class MapleApiOperator(BaseOperator):
         data = flat_json(con) #json 형식 데이터 평탄화 함수
 
         #Mssql Server connect
-        hook = OdbcHook(odbc_conn_id='conn-db-mssql-maple',driver="ODBC Driver 17 for SQL Server") #Airflow connection정보
-        sql = "EXEC SP_UPSERT_TABLE @table_nm = ? , @json =?"
+        hook = MsSqlHook(mssql_conn_id='conn-db-mssql-maple') #Airflow connection정보
+        sql = "EXEC SP_UPSERT_TABLE @table_nm = %s , @json =%s"
         table_nm = self.data_nm.replace('/','_')
         params=(table_nm,data)
         hook.run(sql,parameters=params)
-
 
         
     
