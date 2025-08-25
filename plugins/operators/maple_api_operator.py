@@ -20,6 +20,8 @@ class MapleApiOperator(BaseOperator):
         from plugins.common import flat_json
         from airflow.providers.microsoft.mssql.hooks.mssql import MsSqlHook
 
+        self.log.info(f"[DEBUG] API headers: {self.headers}")
+
         con = self._call_api(self.base_url,self.data_nm,self.headers)
         data = flat_json(con) #json 형식 데이터 평탄화 함수
 
@@ -41,6 +43,10 @@ class MapleApiOperator(BaseOperator):
         request_url=base_url+data_nm
 
         response=requests.get(request_url,headers=headers)
+        
+        if response.status_code != 200:
+            raise Exception(f"API request failed: {response.status_code}, {response.text}")
+        
         contents=json.loads(response.text)
 
         return contents
