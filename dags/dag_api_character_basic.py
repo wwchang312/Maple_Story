@@ -3,6 +3,7 @@ from operators.maple_api_operator import MapleApiOperator
 import pendulum
 from airflow.providers.odbc.hooks.odbc import OdbcHook
 from airflow.providers.standard.operators.python import PythonOperator
+import logging
 
 with DAG(
     dag_id ='dag_api_character_basic',
@@ -15,7 +16,9 @@ with DAG(
     def check_for_update(**kwargs):
         hook = OdbcHook(odbc_conn_id='conn-db-mssql-maple',driver="ODBC Driver 18 for SQL Server")  #Airflow connection정보
         sql = "SELECT * FROM character_list WHERE ocid NOT IN (SELECT ocid FROM character_basic );" #이 경우, 1회성에 그치게 되지만, API 호출 제한이 있으므로, 우선 ocid가 DB에 없는 경우만 불러오기 위함
-        hook.get_records(sql)
+        rows= hook.get_records(sql)
+        logging.info(f"Query result: {rows}")
+        return rows
 
     ocid_list=PythonOperator(
         task_id='ocid_list',
