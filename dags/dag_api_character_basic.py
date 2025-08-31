@@ -13,20 +13,30 @@ with DAG(
     description="캐릭터 기본 정보 조회",
     catchup=False
 ) as dag:
-    def check_for_update(**kwargs):
+    def ocid_list(**kwargs):
         hook = OdbcHook(odbc_conn_id='conn-db-mssql-maple',driver="ODBC Driver 18 for SQL Server")  #Airflow connection정보
         sql = "SELECT ocid FROM character_list WHERE ocid NOT IN (SELECT ocid FROM character_basic );" #이 경우, 1회성에 그치게 되지만, API 호출 제한이 있으므로, 우선 ocid가 DB에 없는 경우만 불러오기 위함
         rows= hook.get_records(sql)
-        for i in rows:
-            result= i
-        return result
+        
+        return rows
+    
+    def generate_param(param):
+        data_nm=f'character/basic?ocid={param}'
+        return data_nm
 
     ocid_list=PythonOperator(
         task_id='ocid_list',
-        python_callable=check_for_update
+        python_callable=ocid_list
     )
 
-    ocid_list
+    Maple_Character_Basic_ETL_Task = MapleApiOperator(
+        task_id='Maple_Character_Basic_ETL_Task',
+        data_nm=generate_param
+    ).expend(op_args=generate_param.output)
+
+
+
+    ocid_list >> Maple_Character_Basic_ETL_Task
 
 
 
