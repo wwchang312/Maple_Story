@@ -17,9 +17,9 @@ with DAG(
         hook = OdbcHook(odbc_conn_id='conn-db-mssql-maple',driver="ODBC Driver 18 for SQL Server")  #Airflow connection정보
         sql = "SELECT ocid FROM character_list WHERE ocid NOT IN (SELECT ocid FROM character_basic );" #이 경우, 1회성에 그치게 되지만, API 호출 제한이 있으므로, 우선 ocid가 DB에 없는 경우만 불러오기 위함
         rows= hook.get_records(sql)
-        rows_type=type(rows)
-        logging.info(f"Query type: {rows_type}")
-        return rows
+        for i in rows:
+            result= i
+        return result
 
     ocid_list=PythonOperator(
         task_id='ocid_list',
