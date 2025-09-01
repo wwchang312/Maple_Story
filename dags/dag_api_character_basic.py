@@ -12,7 +12,7 @@ with DAG(
     tags= ['maple','Character Basic Info '],
     description="캐릭터 기본 정보 조회",
     catchup=False,
-    dafault_args={
+    default_args={
         'pool':'maple_pool' #개발 API의 경우 초당 최대 호출 수가 5건이기 때문에 slot이 5개인 pool을 별도로 지정하여 이용 
     }
 ) as dag:
