@@ -44,7 +44,10 @@ with DAG(
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
         data_nm='character/basic'
-        ).expand(param1=generate_param_task.output)
+        ).expand(
+            param1=generate_param_task.output,
+            date='2025-08-31'
+            )
 
         
 
