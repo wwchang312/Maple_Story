@@ -39,7 +39,7 @@ with DAG(
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
         ).expand(
-            op_kwargs=ocid_list.output  # 동적으로 여러 TASK 병렬 실행
+            op_kwargs=generate_param_task.output  # 동적으로 여러 TASK 병렬 실행
         )
 
 
