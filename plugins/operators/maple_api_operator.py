@@ -4,7 +4,7 @@ from airflow.models import Variable
 
 class MapleApiOperator(BaseOperator):
 
-    template_fields= ('data_nm','param1'),
+    template_fields= ('data_nm','param1',)
 
     def __init__(self,data_nm,param1: str | None = None,**kwargs):
         '''
