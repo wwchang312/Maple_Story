@@ -18,11 +18,8 @@ with DAG(
         sql = "SELECT ocid FROM character_list WHERE ocid NOT IN (SELECT ocid FROM character_basic );" #이 경우, 1회성에 그치게 되지만, API 호출 제한이 있으므로, 우선 ocid가 DB에 없는 경우만 불러오기 위함
         rows= hook.get_records(sql)
         
-        return [{'ocid': r[0]} for r in rows]
+        return [{'data_nm': f'character/basic?ocid={r[0]}'} for r in rows]
  
-    def generate_param(param):
-        data_nm=f'character/basic?ocid={param}'
-        return data_nm
 
     ocid_list=PythonOperator(
         task_id='ocid_list',
