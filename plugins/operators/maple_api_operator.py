@@ -24,7 +24,7 @@ class MapleApiOperator(BaseOperator):
 
         # self.log.info(f"[DEBUG] API headers: {self.headers}")
 
-        con = self._call_api(self.base_url,self.data_nm,self.headers)
+        con = self._call_api(self.base_url,self.data_nm,self.headers,self.param1)
         data = flat_json(con) #json 형식 데이터 평탄화 함수
 
         #Mssql Server connect
