@@ -37,17 +37,13 @@ class MapleApiOperator(BaseOperator):
         
     
 
-    def _call_api(self,base_url,data_nm,headers,param1):
+    def _call_api(self,base_url,data_nm,headers):
         import requests
         import json
 
-        if param1 is None:
-            request_url=base_url+data_nm
-            response=requests.get(request_url,headers=headers)
-        
-        else:
-            request_url=base_url+data_nm
-            response=requests.get(request_url,headers=headers)
+        request_url=base_url+data_nm
+        response=requests.get(request_url,headers=headers)
+
         
         if response.status_code != 200:
             raise Exception(f"API request failed: {response.status_code}, {response.text}")
