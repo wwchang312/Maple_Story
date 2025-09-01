@@ -22,7 +22,7 @@ with DAG(
     
 
     def generate_param_list(ocids):
-        return [{'data_nm':f'character/basic?ocid={x}'}for x in ocids]
+        return [f'?ocid={x}'for x in ocids]
  
 
     ocid_list_task=PythonOperator(
@@ -35,11 +35,12 @@ with DAG(
         python_callable=generate_param_list,
         op_args=[ocid_list_task.output]
     )
-    logging.info(generate_param_task.output)
+
 
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
-        ).expand(data_nm=generate_param_task.output)
+        data_nm='character/basic'
+        ).expand(param1=generate_param_task.output)
 
         
 
