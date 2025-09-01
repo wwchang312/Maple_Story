@@ -1,13 +1,13 @@
 from airflow.models.baseoperator import BaseOperator
 from airflow.hooks.base import BaseHook
 from airflow.models import Variable
-import logging
+
 
 class MapleApiOperator(BaseOperator):
 
-    template_fields= ('data_nm','param1',)
+    template_fields= ('data_nm','param1','date',)
 
-    def __init__(self,data_nm,param1: str | None = None,**kwargs):
+    def __init__(self,data_nm,date:str | None=None,param1: str | None = None,**kwargs):
         '''
         data_nm : 호출하고자 하는 데이터의 API 종류  "/"로 구분
         예시: 캐릭터 목록 조회 api 호출시,
@@ -18,6 +18,7 @@ class MapleApiOperator(BaseOperator):
         self.data_nm = data_nm
         self.headers =  {"x-nxopen-api-key" : Variable.get("x-nxopen-api-key")}
         self.param1 = param1
+        self.date = date
 
     def execute(self, context):
         from common.flat_json import flat_json
@@ -25,7 +26,7 @@ class MapleApiOperator(BaseOperator):
 
         # self.log.info(f"[DEBUG] API headers: {self.headers}")
 
-        con = self._call_api(self.base_url,self.data_nm,self.headers,self.param1)
+        con = self._call_api(self.base_url,self.data_nm,self.headers,self.date,self.param1)
         data = flat_json(con) #json 형식 데이터 평탄화 함수
 
         #Mssql Server connect
@@ -38,17 +39,18 @@ class MapleApiOperator(BaseOperator):
         
     
 
-    def _call_api(self,base_url,data_nm,headers, param1:str | None = None):
+    def _call_api(self,base_url,data_nm,headers,date:str | None=None, param1:str | None = None):
         import requests
         import json
 
-        if param1 is None:
-            request_url=base_url+data_nm
-        else:
-            request_url=base_url+data_nm+'?'+param1
-        
-        self.log.info(request_url)
+        request_url=base_url+data_nm
 
+        if param1 is not None and date is not None:
+            request_url +='?'+param1 + '&date=' + date
+        elif param1 is not None:
+            request_url +='?'+param1
+        elif date is not None:
+            request_url +='?'+'date='+date
 
         response=requests.get(request_url,headers=headers)
 
