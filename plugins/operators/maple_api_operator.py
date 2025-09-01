@@ -1,6 +1,7 @@
 from airflow.models.baseoperator import BaseOperator
 from airflow.hooks.base import BaseHook
 from airflow.models import Variable
+import logging
 
 class MapleApiOperator(BaseOperator):
 
@@ -45,6 +46,8 @@ class MapleApiOperator(BaseOperator):
             request_url=base_url+data_nm
         else:
             request_url=base_url+data_nm+'?'+param1
+        
+        self.log.info(request_url)
 
 
         response=requests.get(request_url,headers=headers)
