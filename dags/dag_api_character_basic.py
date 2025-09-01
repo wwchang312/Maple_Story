@@ -22,7 +22,7 @@ with DAG(
     
 
     def generate_param_list(ocids):
-        return [f'?ocid={x}'for x in ocids]
+        return [f'ocid={x}'for x in ocids]
  
 
     ocid_list_task=PythonOperator(
