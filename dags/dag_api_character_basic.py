@@ -11,7 +11,10 @@ with DAG(
     start_date=pendulum.datetime(2025,8,1,tz="Asia/Seoul"),
     tags= ['maple','Character Basic Info '],
     description="캐릭터 기본 정보 조회",
-    catchup=False
+    catchup=False,
+    dafault_args={
+        'pool':'maple_pool' #개발 API의 경우 초당 최대 호출 수가 5건이기 때문에 slot이 5개인 pool을 별도로 지정하여 이용 
+    }
 ) as dag:
     '''
     api 호출시, 2023년 12월21일 데이터부터 조회가 가능함. 단, 계정 정보 조회 API는 기간과 무관하게 조회가된다.
