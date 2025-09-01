@@ -32,7 +32,7 @@ with DAG(
     Maple_Character_Basic_ETL_Task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
         data_nm=generate_param
-    ).expand(op_args=generate_param.output)
+    ).expand(op_args=ocid_list.output)
 
 
 
