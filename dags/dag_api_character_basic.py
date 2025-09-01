@@ -18,15 +18,25 @@ with DAG(
         sql = "SELECT ocid FROM character_list WHERE ocid NOT IN (SELECT ocid FROM character_basic );" #이 경우, 1회성에 그치게 되지만, API 호출 제한이 있으므로, 우선 ocid가 DB에 없는 경우만 불러오기 위함
         rows= hook.get_records(sql)
         
-        return [{'data_nm': f'character/basic?ocid={r[0]}'} for r in rows]
+        return [r[0] for r in rows] #ocid 리스트 형태로 적재
+    
+
+    def generate_param_list(ocids):
+        return [{'data_nm':f'character/basic?ocid={x}'}for x in ocids]
  
 
-    ocid_list=PythonOperator(
+    ocid_list_task=PythonOperator(
         task_id='ocid_list',
         python_callable=ocid_list
     )
 
-    Maple_Character_Basic_ETL_Task = MapleApiOperator.partial(
+    generate_param_task = PythonOperator(
+        task_id='generate_param_task',
+        python_callable=generate_param_list,
+        op_args=[ocid_list_task.output]
+    )
+
+    Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
         ).expand(
             op_kwargs=ocid_list.output  # 동적으로 여러 TASK 병렬 실행
@@ -34,7 +44,6 @@ with DAG(
 
 
 
-    ocid_list >> Maple_Character_Basic_ETL_Task
 
 
 
