@@ -6,7 +6,7 @@ class MapleApiOperator(BaseOperator):
 
     template_fields= ('data_nm',)
 
-    def __init__(self,data_nm,**kwargs):
+    def __init__(self,data_nm,param1: str | None = None,**kwargs):
         '''
         data_nm : 호출하고자 하는 데이터의 API 종류  "/"로 구분
         예시: 캐릭터 목록 조회 api 호출시,
@@ -16,7 +16,7 @@ class MapleApiOperator(BaseOperator):
         self.base_url = 'https://open.api.nexon.com/maplestory/v1/'
         self.data_nm = data_nm
         self.headers =  {"x-nxopen-api-key" : Variable.get("x-nxopen-api-key")}
-        
+        self.param1 = param1
 
     def execute(self, context):
         from common.flat_json import flat_json
@@ -37,11 +37,16 @@ class MapleApiOperator(BaseOperator):
         
     
 
-    def _call_api(self,base_url,data_nm,headers):
+    def _call_api(self,base_url,data_nm,headers, param1:str | None = None):
         import requests
         import json
 
-        request_url=base_url+data_nm
+        if param1 is None:
+            request_url=base_url+data_nm
+        else:
+            request_url=base_url+data_nm+'?'+param1
+
+
         response=requests.get(request_url,headers=headers)
 
         
