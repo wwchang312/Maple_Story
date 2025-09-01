@@ -29,10 +29,10 @@ with DAG(
         python_callable=ocid_list
     )
 
-    Maple_Character_Basic_ETL_Task = MapleApiOperator(
+    Maple_Character_Basic_ETL_Task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
         data_nm=generate_param
-    ).expend(op_args=generate_param.output)
+    ).expand(op_args=generate_param.output)
 
 
 
