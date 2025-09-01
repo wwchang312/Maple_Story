@@ -35,12 +35,11 @@ with DAG(
         python_callable=generate_param_list,
         op_args=[ocid_list_task.output]
     )
-    logging.info(generate_param_task)
+
 
     Maple_Character_Basic_ETL_task = MapleApiOperator(
         task_id='Maple_Character_Basic_ETL_Task',
-        data_nm=generate_param_task.output
-        )
+        ).expand(data_nm=generate_param_task.output)
 
         
 
