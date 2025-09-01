@@ -4,6 +4,8 @@ from airflow.models import Variable
 
 class MapleApiOperator(BaseOperator):
 
+    template_fields= ('data_nm',)
+
     def __init__(self,data_nm,**kwargs):
         '''
         data_nm : 호출하고자 하는 데이터의 API 종류  "/"로 구분
@@ -35,13 +37,17 @@ class MapleApiOperator(BaseOperator):
         
     
 
-    def _call_api(self,base_url,data_nm,headers):
+    def _call_api(self,base_url,data_nm,headers,param1):
         import requests
         import json
 
-        request_url=base_url+data_nm
-
-        response=requests.get(request_url,headers=headers)
+        if param1 is None:
+            request_url=base_url+data_nm
+            response=requests.get(request_url,headers=headers)
+        
+        else:
+            request_url=base_url+data_nm
+            response=requests.get(request_url,headers=headers)
         
         if response.status_code != 200:
             raise Exception(f"API request failed: {response.status_code}, {response.text}")
