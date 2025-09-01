@@ -35,9 +35,9 @@ with DAG(
         python_callable=generate_param_list,
         op_args=[ocid_list_task.output]
     )
+    logging.info(generate_param_task.output)
 
-
-    Maple_Character_Basic_ETL_task = MapleApiOperator(
+    Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
         ).expand(data_nm=generate_param_task.output)
 
