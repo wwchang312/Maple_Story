@@ -46,7 +46,7 @@ with DAG(
         data_nm='character/basic',
         date = Variable.get("maple_date") #기준일인 date 파라미터는 Airflow Variable을 통해 관리 (타 DAG에도 동일한 값을 적용하기 위함)
         ).expand(
-            param1=generate_param_task.output,
+            ocid=generate_param_task.output,
             )
 
         

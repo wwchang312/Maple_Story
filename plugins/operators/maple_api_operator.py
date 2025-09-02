@@ -5,9 +5,9 @@ from airflow.models import Variable
 
 class MapleApiOperator(BaseOperator):
 
-    template_fields= ('data_nm','param1','date',)
+    template_fields= ('data_nm','ocid',)
 
-    def __init__(self,data_nm,date:str | None=None,param1: str | None = None,**kwargs):
+    def __init__(self,data_nm,date:str | None=None,ocid: str | None = None,**kwargs):
         '''
         data_nm : 호출하고자 하는 데이터의 API 종류  "/"로 구분
         예시: 캐릭터 목록 조회 api 호출시,
@@ -17,7 +17,7 @@ class MapleApiOperator(BaseOperator):
         self.base_url = 'https://open.api.nexon.com/maplestory/v1/'
         self.data_nm = data_nm
         self.headers =  {"x-nxopen-api-key" : Variable.get("x-nxopen-api-key")}
-        self.param1 = param1
+        self.ocid = ocid
         self.date = date
 
     def execute(self, context):
@@ -26,7 +26,7 @@ class MapleApiOperator(BaseOperator):
 
         # self.log.info(f"[DEBUG] API headers: {self.headers}")
 
-        con = self._call_api(self.base_url,self.data_nm,self.headers,self.date,self.param1)
+        con = self._call_api(self.base_url,self.data_nm,self.headers,self.date,self.ocid)
         data = flat_json(con) #json 형식 데이터 평탄화 함수
 
         #Mssql Server connect
@@ -39,16 +39,16 @@ class MapleApiOperator(BaseOperator):
         
     
 
-    def _call_api(self,base_url,data_nm,headers,date:str | None=None, param1:str | None = None):
+    def _call_api(self,base_url,data_nm,headers,date:str | None=None, ocid:str | None = None):
         import requests
         import json
 
         request_url=base_url+data_nm
 
-        if param1 is not None and date is not None:
-            request_url +='?'+param1 + '&date=' + date
-        elif param1 is not None:
-            request_url +='?'+param1
+        if ocid is not None and date is not None:
+            request_url +='?'+ocid + '&date=' + date
+        elif ocid is not None:
+            request_url +='?'+ocid
         elif date is not None:
             request_url +='?'+'date='+date
 
@@ -59,5 +59,6 @@ class MapleApiOperator(BaseOperator):
             raise Exception(f"API request failed: {response.status_code}, {response.text}")
         
         contents=json.loads(response.text)
+        contents['ocid'] = ocid  #ocid를 파라미터로 받는 경우 별도로 받는 ocid 컬럼이 없으므로 임의로 추가함.
 
         return contents
