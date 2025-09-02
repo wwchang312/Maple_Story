@@ -59,6 +59,8 @@ class MapleApiOperator(BaseOperator):
             raise Exception(f"API request failed: {response.status_code}, {response.text}")
         
         contents=json.loads(response.text)
-        contents['ocid'] = ocid  #ocid를 파라미터로 받는 경우 별도로 받는 ocid 컬럼이 없으므로 임의로 추가함.
+        
+        if ocid is not None:
+            contents['ocid'] = ocid  #ocid를 파라미터로 받는 경우 별도로 받는 ocid 컬럼이 없으므로 임의로 추가함.
 
         return contents
