@@ -3,7 +3,7 @@ from operators.maple_api_operator import MapleApiOperator
 import pendulum
 from airflow.providers.odbc.hooks.odbc import OdbcHook
 from airflow.providers.standard.operators.python import PythonOperator
-import logging
+from airflow.models import Variable
 
 with DAG(
     dag_id ='dag_api_character_basic',
@@ -43,10 +43,10 @@ with DAG(
 
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
-        data_nm='character/basic'
+        data_nm='character/basic',
+        date = Variable.get("maple_date") #기준일인 date 파라미터는 Airflow Variable을 통해 관리 (타 DAG에도 동일한 값을 적용하기 위함)
         ).expand(
             param1=generate_param_task.output,
-            date='2025-08-31'
             )
 
         
