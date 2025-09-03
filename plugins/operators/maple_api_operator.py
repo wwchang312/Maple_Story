@@ -32,7 +32,7 @@ class MapleApiOperator(BaseOperator):
         #Mssql Server connect
         hook = OdbcHook(odbc_conn_id='conn-db-mssql-maple',driver="ODBC Driver 18 for SQL Server")  #Airflow connection정보
         sql = "EXEC SP_UPSERT_TABLE @table_nm = ? , @json =?"
-        table_nm = self.data_nm.replace('/','_')
+        table_nm = self.data_nm.replace('/','_').replace('-','_')
         params=(table_nm,data)
         hook.run(sql,parameters=params)
 
