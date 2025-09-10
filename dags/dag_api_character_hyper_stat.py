@@ -19,7 +19,7 @@ with DAG(
 
     def ocid_list(**kwargs):
         hook = OdbcHook(odbc_conn_id='conn-db-mssql-maple',driver="ODBC Driver 18 for SQL Server")  #Airflow connection정보
-        sql = "SELECT ocid FROM character_list WHERE ocid NOT IN (SELECT ocid FROM character_hyper-stat );" #이 경우, 1회성에 그치게 되지만, API 호출 제한이 있으므로, 우선 ocid가 DB에 없는 경우만 불러오기 위함
+        sql = "SELECT ocid FROM character_list WHERE ocid NOT IN (SELECT ocid FROM character_hyper_stat );" #이 경우, 1회성에 그치게 되지만, API 호출 제한이 있으므로, 우선 ocid가 DB에 없는 경우만 불러오기 위함
         rows= hook.get_records(sql)
         
         return [r[0] for r in rows] #ocid 리스트 형태로 적재
@@ -41,8 +41,8 @@ with DAG(
     )
 
 
-    Maple_Hyper_Stat_ETL_task = MapleApiOperator.partial(
-        task_id='Maple_Hyper_Stat_ETL_task',
+    maple_hyper_stat_ETL_task = MapleApiOperator.partial(
+        task_id='maple_hyper_stat_ETL_task',
         data_nm='character/hyper-stat',
         date = Variable.get("maple_date") #기준일인 date 파라미터는 Airflow Variable을 통해 관리 (타 DAG에도 동일한 값을 적용하기 위함)
         ).expand(
