@@ -3,7 +3,7 @@ from operators.maple_api_operator import MapleApiOperator
 import pendulum
 
 with DAG(
-    dag_id ='dag_api__character_list_etl',
+    dag_id ='dag_api__character_list',
     schedule= None,
     start_date=pendulum.datetime(2025,8,1,tz="Asia/Seoul"),
     tags= ['maple','character list'],
