@@ -3,7 +3,7 @@ from operators.maple_api_operator import MapleApiOperator
 import pendulum
 
 with DAG(
-    dag_id ='DAG_API_User_Achievement',
+    dag_id ='dag_api_user_achievement',
     schedule= None,
     start_date=pendulum.datetime(2025,8,1,tz="Asia/Seoul"),
     tags= ['maple','User Achievement'],
@@ -11,7 +11,7 @@ with DAG(
     catchup=False
 ) as dag:
     
-    maple_user_achievement_task = MapleApiOperator(
+    maple_user_achievement_ETL_task = MapleApiOperator(
         task_id='maple_user_achievement_task',
         data_nm='user/achievement'
     )
