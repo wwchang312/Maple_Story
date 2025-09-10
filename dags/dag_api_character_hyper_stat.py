@@ -6,7 +6,7 @@ from airflow.providers.standard.operators.python import PythonOperator
 from airflow.sdk import Variable
 
 with DAG(
-    dag_id ='dag_api_character_hyper-stat',
+    dag_id ='dag_api_character_hyper_stat',
     schedule= None,
     start_date=pendulum.datetime(2025,8,1,tz="Asia/Seoul"),
     tags= ['maple','Character Stat Info '],
@@ -19,7 +19,7 @@ with DAG(
 
     def ocid_list(**kwargs):
         hook = OdbcHook(odbc_conn_id='conn-db-mssql-maple',driver="ODBC Driver 18 for SQL Server")  #Airflow connection정보
-        sql = "SELECT ocid FROM Character_list WHERE ocid NOT IN (SELECT ocid FROM character_hyper-stat );" #이 경우, 1회성에 그치게 되지만, API 호출 제한이 있으므로, 우선 ocid가 DB에 없는 경우만 불러오기 위함
+        sql = "SELECT ocid FROM character_list WHERE ocid NOT IN (SELECT ocid FROM character_hyper-stat );" #이 경우, 1회성에 그치게 되지만, API 호출 제한이 있으므로, 우선 ocid가 DB에 없는 경우만 불러오기 위함
         rows= hook.get_records(sql)
         
         return [r[0] for r in rows] #ocid 리스트 형태로 적재
