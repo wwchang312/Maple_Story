@@ -30,7 +30,7 @@ class MapleApiOperator(BaseOperator):
         con = self._call_api(self.base_url,self.data_nm,self.headers,self.date,self.ocid)
         # data = flat_json(con) #json 형식 데이터 평탄화 함수
         self.data_nm = self.data_nm.replace('/','_').replace('-','_')
-        data=make_json_for_db(con,self.data_nm) #기존 함수 대체
+        data=make_json_for_db(con,self.data_nm,self.ocid) #기존 함수 대체
 
         #Mssql Server connect
         hook = OdbcHook(odbc_conn_id='conn-db-mssql-maple',driver="ODBC Driver 18 for SQL Server")  #Airflow connection정보
