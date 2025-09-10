@@ -35,7 +35,7 @@ class MapleApiOperator(BaseOperator):
         #Mssql Server connect
         hook = OdbcHook(odbc_conn_id='conn-db-mssql-maple',driver="ODBC Driver 18 for SQL Server")  #Airflow connection정보
         sql = "EXEC SP_UPSERT_TABLE @table_nm = ? , @json =?"
-        for k,v in data:
+        for k,v in data.items():
             table_nm=k
             json=v
         # table_nm = self.data_nm.replace('/','_').replace('-','_') #호출방식 변경으로 삭제
