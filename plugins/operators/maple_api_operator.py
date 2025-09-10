@@ -21,20 +21,26 @@ class MapleApiOperator(BaseOperator):
         self.date = date
 
     def execute(self, context):
-        from common.flat_json import flat_json
+        # from common.flat_json import flat_json   #표준화를 위한 함수 변경
+        from common.make_json_for_db import make_json_for_db
         from airflow.providers.odbc.hooks.odbc import OdbcHook
 
         # self.log.info(f"[DEBUG] API headers: {self.headers}")
 
         con = self._call_api(self.base_url,self.data_nm,self.headers,self.date,self.ocid)
-        data = flat_json(con) #json 형식 데이터 평탄화 함수
+        # data = flat_json(con) #json 형식 데이터 평탄화 함수
+        self.data_nm = self.data_nm.replace('/','_').replace('-','_')
+        data=make_json_for_db(con,self.data_nm) #기존 함수 대체
 
         #Mssql Server connect
         hook = OdbcHook(odbc_conn_id='conn-db-mssql-maple',driver="ODBC Driver 18 for SQL Server")  #Airflow connection정보
         sql = "EXEC SP_UPSERT_TABLE @table_nm = ? , @json =?"
-        table_nm = self.data_nm.replace('/','_').replace('-','_')
-        params=(table_nm,data)
-        hook.run(sql,parameters=params)
+        for k,v in data:
+            table_nm=k
+            json=v
+        # table_nm = self.data_nm.replace('/','_').replace('-','_') #호출방식 변경으로 삭제
+            params=(table_nm,json)
+            hook.run(sql,parameters=params)
 
         
     
