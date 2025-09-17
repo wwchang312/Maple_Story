@@ -1,13 +1,12 @@
-def make_json_for_db(obj,data_nm=None,ocid=None):
+
+def make_json_for_db(obj,data_nm=None,ocid=None,account_id=None):
     import json
-    # table_list = []
+    
     table_data = {}
     
-    def make_dict_json(table_nm,lis):
-        nonlocal table_data #,table_list
+    def make_json_list(table_nm,lis):
+        nonlocal table_data
         
-        # if table_nm not in table_list:
-            # table_list.append(table_nm)
         if table_nm not in table_data:
             table_data[table_nm]=[]
         
@@ -16,26 +15,31 @@ def make_json_for_db(obj,data_nm=None,ocid=None):
             for k,v in i.items():
                 if ocid:
                     row['ocid']=ocid
+                #preset의 경우 key의 preset 숫자 부분을 이용하여 preset_no 컬럼과 그 값을 추가함
                 if 'preset' in table_nm:
-                    row['preset_no'] = table_nm[-1:]
+                    row['preset_no'] = table_nm[-1]
+                    
                 if isinstance(v,list):
-                    make_dict_json(k,v)
+                    make_json_list(k,v)
+                    
                 else:
                     row[k]=v
             if row:
                 table_data[table_nm].append(row)
-    
+                
+
+        
     # 상위 단일 값들을 모아 하나의 row로
     single_row={}
-
     
     for k,v in obj.items():
         if ocid:
-            single_row['ocid'] = ocid
+            single_row['ocid'] = ocid        
         
+        #obj가 list인 경우 
         if isinstance(v,list):
-            make_dict_json(k,v)
-        
+            make_json_list(k,v)
+    
         else:
             single_row[k] = v
     
@@ -43,18 +47,15 @@ def make_json_for_db(obj,data_nm=None,ocid=None):
     
     if single_row:
         target = data_nm or "main_table"
-        # if target not in table_list:
-            # table_list.append(target)
         table_data[target] = [single_row]
             
     
+    for d in list(table_data.keys()):
+        if table_data[d] ==[]:
+            del table_data[d]
+    
     for t in table_data:
         table_data[t] = json.dumps(table_data[t],ensure_ascii=False)
-    
-    # if data_nm and data_nm in table_list:
-        # table_list = [data_nm] +[t for t in table_list if t != data_nm]
+
         
-    return table_data #,table_list 
-            
-    
-        
+    return table_data
