@@ -14,6 +14,8 @@ def make_json_for_db(obj,data_nm=None,ocid=None,account_id=None):
             for k,v in i.items():
                 if ocid:
                     row['ocid']=ocid
+                if account_id:
+                    row['account_id']=account_id
                 #preset의 경우 key의 preset 숫자 부분을 이용하여 preset_no 컬럼과 그 값을 추가함
                 if 'preset' in table_nm:
                     row['preset_no'] = table_nm[-1]
