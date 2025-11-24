@@ -871,17 +871,16 @@ BEGIN
 --  1-v1) 캐릭터 목록 JSON 조회용 VIEW 생성 
 		EXEC(N'
 		CREATE OR ALTER VIEW maple.vw_character_list AS 
-		select aoj.*
-			from character_list cl
-			CROSS APPLY OPENJSON(cl.character_list)
-			WITH (
+		SELECT aoj.*
+		FROM character_list cl
+		CROSS APPLY OPENJSON(cl.character_list) WITH (
 				ocid				NVARCHAR(64),	--캐릭터 식별자
 				character_name		NVARCHAR(64),	--캐릭터 명
 				world_name			NVARCHAR(8),	--월드 명
 				character_class		NVARCHAR(64),	--캐릭터 직업
 				character_level		INT				--캐릭터 레벨
-				)aoj ;'
-		);
+				) aoj ;'
+			);
 	
 -- 성공 시 COMMIT	
 		COMMIT TRAN;
