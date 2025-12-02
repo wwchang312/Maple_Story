@@ -26,9 +26,8 @@ BEGIN
 	SET @sql += N'
 	IF OBJECT_ID(N''maple.character_list'',''U'') IS NULL
 	CREATE TABLE maple.character_list(
-	account_id		NVARCHAR(64),		-- 메이플스토리 계정 식별자
-	character_list	NVARCHAR(MAX),		-- 캐릭터 목록
-	CONSTRAINT pk_character_list PRIMARY KEY (account_id)
+	account_list	NVARCHAR(MAX),		-- 캐릭터 목록
+	CONSTRAINT pk_character_list PRIMARY KEY (account_list)
 	);';
 
 --	캐릭터_목록_이력_테이블
