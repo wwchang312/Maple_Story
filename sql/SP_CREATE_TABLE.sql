@@ -16,7 +16,6 @@ BEGIN
 	 ---- 구성 테이블 ----
 	 
 	 - 캐릭터_목록_테이블
-	 - 캐릭터_목록_이력_테이블
 	 - 업적_정보_테이블
 	 
 	 */
@@ -26,20 +25,11 @@ BEGIN
 	SET @sql += N'
 	IF OBJECT_ID(N''maple.character_list'',''U'') IS NULL
 	CREATE TABLE maple.character_list(
-	account_list	NVARCHAR(MAX),		-- 캐릭터 목록
-	CONSTRAINT pk_character_list PRIMARY KEY (account_list)
+	account_id		NVARCHAR(64),
+	character_list	NVARCHAR(MAX),		-- 캐릭터 목록
+	CONSTRAINT pk_character_list PRIMARY KEY (account_id)
 	);';
 
---	캐릭터_목록_이력_테이블
-	SET @sql += N'
-	IF OBJECT_ID(N''maple.character_list_hist'',''U'') IS NULL
-	CREATE TABLE maple.character_list_hist(
-	update_date		DATETIME DEFAULT GETDATE(),  -- api 호출 수행 날짜
-	account_id		NVARCHAR(64) NOT NULL REFERENCES maple.character_list,		-- 메이플스토리 계정 식별자
-	character_list	NVARCHAR(MAX),		-- 캐릭터 목록
-	status			NVARCHAR(2),		-- 최초 등록 : C , 변경 : U , 삭제:D
-	CONSTRAINT pk_character_list_hist PRIMARY KEY (update_date,account_id)
-	);';
 
 
 -- 	업적_정보_테이블
@@ -157,7 +147,7 @@ BEGIN
 	IF OBJECT_ID(N''maple.character_popularity'',''U'') IS NULL
 	CREATE TABLE maple.character_popularity (
 	[date]			NVARCHAR(32),				--조회기준일
-	ocid			NVARCAHR(64),				--캐릭터 식별자
+	ocid			NVARCHAR(64),				--캐릭터 식별자
 	popularity		INT,						--캐릭터 인기도
 	CONSTRAINT pk_character_popularity PRIMARY KEY (ocid)
 	);';
@@ -168,7 +158,7 @@ BEGIN
 	CREATE TABLE maple.character_popularity_hist (
 	update_date		DATETIME DEFAULT GETDATE(),  	--api 호출 수행 날짜
 	[date]			NVARCHAR(32),					--조회기준일
-	ocid			NVARCAHR(64),					--캐릭터 식별자
+	ocid			NVARCHAR(64),					--캐릭터 식별자
 	popularity		INT,							--캐릭터 인기도
 	status			NVARCHAR(2),					--최초 등록 : C , 변경 : U , 삭제:D
 	CONSTRAINT pk_character_popularity_hist PRIMARY KEY (update_date,ocid)
