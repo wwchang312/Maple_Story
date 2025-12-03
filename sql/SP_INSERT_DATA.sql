@@ -1,8 +1,11 @@
+USE nexon;
 CREATE OR ALTER PROCEDURE SP_INSERT_DATA
+(
 	@schema_nm 	NVARCHAR(64) = 'maple',
 	@table_nm 	NVARCHAR(128),
 	@json	  	NVARCHAR(MAX),
-	@wt			NVARCHAR(MAX) =NULL
+	@wt			NVARCHAR(MAX) = NULL
+)
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -23,13 +26,24 @@ BEGIN
 	
 	
 	-- 2. JSON 파싱을 위한 WITH절 생성
-	SELECT @wt = 'WITH ('
-				+STRING_AGG(COLUMN_NAME
-				,',')
-				+')'
+	SELECT @wt = STRING_AGG
+							(
+							CONCAT(QUOTENAME(c.COLUMN_NAME) , ' ', c.DATA_TYPE,
+									IIF(c.CHARACTER_MAXIMUM_LENGTH = -1,'(MAX) AS JSON',IIF(c.CHARACTER_MAXIMUM_LENGTH IS NULL,'',CONCAT('(',c.CHARACTER_MAXIMUM_LENGTH,')'))
+									   ) -- IIF로 작성하는 경우는 정상적으로 프로시저가 생성됨.
+								  ),',')
 	FROM INFORMATION_SCHEMA.COLUMNS c 
-	WHERE TABLE_SCHEMA = @schema_nm
-  	AND TABLE_NAME   = @table_nm;
+	WHERE c.TABLE_SCHEMA = @schema_nm
+  	AND c.TABLE_NAME   = @table_nm;
+	
+	-- 3. JSON 파싱
+	
+	
+	
 
-	PRINT @wt;
+	
 END
+
+
+
+
