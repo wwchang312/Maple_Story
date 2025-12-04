@@ -1,4 +1,4 @@
-USE nexon;
+USE Maple;
 CREATE OR ALTER PROCEDURE SP_INSERT_DATA
 (
 	@schema_nm 	NVARCHAR(64) = 'maple',
@@ -28,15 +28,35 @@ BEGIN
 	-- 2. JSON 파싱을 위한 WITH절 생성
 	SELECT @wt = STRING_AGG
 							(
-							CONCAT(QUOTENAME(c.COLUMN_NAME) , ' ', c.DATA_TYPE,
-									IIF(c.CHARACTER_MAXIMUM_LENGTH = -1,'(MAX) AS JSON',IIF(c.CHARACTER_MAXIMUM_LENGTH IS NULL,'',CONCAT('(',c.CHARACTER_MAXIMUM_LENGTH,')'))
-									   ) -- IIF로 작성하는 경우는 정상적으로 프로시저가 생성됨.
+							CONCAT(QUOTENAME(c.COLUMN_NAME) , 
+							'   ', 
+							'NVARCHAR(',
+							IIF(CHARACTER_MAXIMUM_LENGTH=-1,'MAX) AS JSON',IIF(CHARACTER_MAXIMUM_LENGTH IS NULL, '64)',CONVERT(NVARCHAR,CHARACTER_MAXIMUM_LENGTH)+')'))
 								  ),',')
 	FROM INFORMATION_SCHEMA.COLUMNS c 
 	WHERE c.TABLE_SCHEMA = @schema_nm
   	AND c.TABLE_NAME   = @table_nm;
 	
-	-- 3. JSON 파싱
+	-- 3. KEY값 추출
+	DECLARE @KeyList TABLE (col SYSNAME);
+	
+	INSERT INTO @KeyList 
+				SELECT COLUMN_NAME 
+				FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE kcu 
+				WHERE kcu.TABLE_NAME =@table_nm and kcu.TABLE_SCHEMA =@schema_nm;
+	
+	
+	
+	
+	
+	-- 5-1. JOIN 조건절 ON 생성
+	
+	DECLARE @on NVARCHAR(MAX);
+	
+	SELECT @on = STRING_AGG(CONCAT('t.',QUOTENAME(col),' = ','s.',QUOTENAME(col)),',')
+	FROM @KeyList;
+	
+	
 	
 	
 	
