@@ -172,6 +172,7 @@ BEGIN
 	ocid				NVARCHAR(64),			--캐릭터 식별자
 	character_class		NVARCHAR(64),			--캐릭터 직업
 	final_stat			NVARCHAR(MAX),			--현재 스탯 정보
+	remain_ap			INT,					--잔여 AP
 	CONSTRAINT pk_character_stat PRIMARY KEY (ocid)
 	);';
 
@@ -184,6 +185,7 @@ BEGIN
 	ocid				NVARCHAR(64),					--캐릭터 식별자
 	character_class		NVARCHAR(64),					--캐릭터 직업
 	final_stat			NVARCHAR(MAX),					--현재 스탯 정보
+	remain_ap			INT,
 	status				NVARCHAR(2),					--최초 등록 : C , 변경 : U , 삭제:D
 	CONSTRAINT pk_character_stat_hist PRIMARY KEY (update_date,ocid)
 	);';
