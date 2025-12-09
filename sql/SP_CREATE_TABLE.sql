@@ -138,7 +138,6 @@ BEGIN
 	character_date_create	NVARCHAR(32),		--캐릭터 생성일
 	access_flag				NVARCHAR(8),		--최근 7일간 접속 여부
 	liberation_quest_clear	NVARCHAR(8),		--해방 퀘스트 완료 여부 (0:미완료, 1:제네시스 무기 해방, 2:데스티니 무기 1차 해방)
-	status					NVARCHAR(2),		--최초 등록 : C , 변경 : U , 삭제:D
 	CONSTRAINT pk_character_basic_hist PRIMARY KEY (update_date,ocid)
 	);';
 
@@ -160,7 +159,6 @@ BEGIN
 	[date]			NVARCHAR(32),					--조회기준일
 	ocid			NVARCHAR(64),					--캐릭터 식별자
 	popularity		INT,							--캐릭터 인기도
-	status			NVARCHAR(2),					--최초 등록 : C , 변경 : U , 삭제:D
 	CONSTRAINT pk_character_popularity_hist PRIMARY KEY (update_date,ocid)
 	);';
 
@@ -186,7 +184,6 @@ BEGIN
 	character_class		NVARCHAR(64),					--캐릭터 직업
 	final_stat			NVARCHAR(MAX),					--현재 스탯 정보
 	remain_ap			INT,
-	status				NVARCHAR(2),					--최초 등록 : C , 변경 : U , 삭제:D
 	CONSTRAINT pk_character_stat_hist PRIMARY KEY (update_date,ocid)
 	);';
 
@@ -224,7 +221,6 @@ BEGIN
 	hyper_stat_preset_2_remain_point	INT,
 	hyper_stat_preset_3					NVARCHAR(MAX),
 	hyper_stat_preset_3_remain_point	INT,
-	status								NVARCHAR(2),		-- 최초 등록 : C , 변경 : U , 삭제:D
 	CONSTRAINT pk_character_hyper_stat_hist PRIMARY KEY (update_date,ocid)
 	);';
 
@@ -256,7 +252,6 @@ BEGIN
 	willingness_level		INT,
 	handicraft_level		INT,
 	charm_level				INT,
-	status					NVARCHAR(2),
 	CONSTRAINT pk_character_propensity_hist PRIMARY KEY (update_date,ocid)
 	);';
 
@@ -290,7 +285,6 @@ BEGIN
 	ability_preset_1		NVARCHAR(MAX),
 	ability_preset_2		NVARCHAR(MAX),
 	ability_preset_3		NVARCHAR(MAX),
-	status					NVARCHAR(2),
 	CONSTRAINT pk_character_ability_hist	PRIMARY KEY (update_date,ocid)
 	);';
 
@@ -332,7 +326,6 @@ BEGIN
 	medal_shape				NVARCHAR(MAX),
 	dragon_equipment		NVARCHAR(MAX),
 	mechanic_equipment		NVARCHAR(MAX),
-	status					NVARCHAR(2),
 	CONSTRAINT pk_character_item_equipment_hist	PRIMARY KEY (update_date,ocid)
 	);';
 
@@ -376,7 +369,6 @@ BEGIN
 	additional_cash_item_equipment_preset_1		NVARCHAR(MAX),
 	additional_cash_item_equipment_preset_2		NVARCHAR(MAX),
 	additional_cash_item_equipment_preset_3		NVARCHAR(MAX),
-	status										NVARCHAR(2),
 	CONSTRAINT pk_character_cashitem_equipment_hist	PRIMARY KEY (update_date,ocid)
 	);';
 
@@ -403,7 +395,6 @@ BEGIN
 	ocid					NVARCHAR(64),
 	character_class			NVARCHAR(32),
 	symbol					NVARCHAR(MAX),
-	status					NVARCHAR(2),
 	CONSTRAINT pk_character_symbol_equipment_hist	PRIMARY KEY (update_date,ocid)
 	);';
 
@@ -425,7 +416,6 @@ BEGIN
 	[date]					NVARCHAR(32),
 	ocid					NVARCHAR(64),
 	set_effect				NVARCHAR(MAX),
-	status					NVARCHAR(2),
 	CONSTRAINT pk_character_set_effect_hist	PRIMARY KEY (update_date,ocid)
 	);';
 
@@ -461,7 +451,6 @@ BEGIN
 	additional_character_hair	NVARCHAR(MAX),
 	additional_character_face	NVARCHAR(MAX),
 	additional_character_skin	NVARCHAR(MAX),
-	status						NVARCHAR(2),
 	CONSTRAINT pk_character_beauty_equipment_hist	PRIMARY KEY (update_date,ocid)
 	);';
 
@@ -515,7 +504,6 @@ BEGIN
 	android_preset_1				NVARCHAR(MAX),
 	android_preset_2				NVARCHAR(MAX),
 	android_preset_3				NVARCHAR(MAX),
-	status							NVARCHAR(2),
 	CONSTRAINT	pk_character_android_equipment_hist	PRIMARY KEY (update_date,ocid)
 	);';
 
