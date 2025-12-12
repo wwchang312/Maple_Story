@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE SP_CREATE_TABLE
+CREATE OR ALTER PROCEDURE maple.SP_CREATE_TABLE
 AS 
 BEGIN
 	SET NOCOUNT ON;
@@ -148,7 +148,8 @@ BEGIN
 	[date]			NVARCHAR(32),				--조회기준일
 	ocid			NVARCHAR(64),				--캐릭터 식별자
 	popularity		INT,						--캐릭터 인기도
-	CONSTRAINT pk_character_popularity PRIMARY KEY (ocid)
+	CONSTRAINT pk_character_popularity PRIMARY KEY (ocid),
+	CONSTRAINT fk_character_popularity FOREIGN KEY (ocid) REFERENCES maple.character_basic (ocid)
 	);';
 
 --	캐릭터_인기도_정보_이력_테이블
@@ -171,7 +172,8 @@ BEGIN
 	character_class		NVARCHAR(64),			--캐릭터 직업
 	final_stat			NVARCHAR(MAX),			--현재 스탯 정보
 	remain_ap			INT,					--잔여 AP
-	CONSTRAINT pk_character_stat PRIMARY KEY (ocid)
+	CONSTRAINT pk_character_stat PRIMARY KEY (ocid),
+	CONSTRAINT fk_character_stat FOREIGN KEY (ocid) REFERENCES maple.character_basic (ocid)
 	);';
 
 --	캐릭터_종합_능력지_정보_이력_테이블
@@ -202,7 +204,8 @@ BEGIN
 	hyper_stat_preset_2_remain_point	INT,
 	hyper_stat_preset_3					NVARCHAR(MAX),
 	hyper_stat_preset_3_remain_point	INT,
-	CONSTRAINT pk_character_hyper_stat PRIMARY KEY (ocid)
+	CONSTRAINT pk_character_hyper_stat PRIMARY KEY (ocid),
+	CONSTRAINT fk_character_hyper_stat FOREIGN KEY (ocid) REFERENCES maple.character_basic (ocid)
 	);';
 
 --	캐릭터_하이퍼_스탯_정보_이력_테이블
@@ -236,7 +239,8 @@ BEGIN
 	willingness_level		INT,
 	handicraft_level		INT,
 	charm_level				INT,
-	CONSTRAINT pk_character_propensity PRIMARY KEY (ocid)
+	CONSTRAINT pk_character_propensity PRIMARY KEY (ocid),
+	CONSTRAINT fk_character_propensity FOREIGN KEY (ocid) REFERENCES maple.character_basic (ocid)
 	);';
 
 --  캐릭터_성향_정보_이력_테이블
@@ -268,7 +272,8 @@ BEGIN
 	ability_preset_1		NVARCHAR(MAX),
 	ability_preset_2		NVARCHAR(MAX),
 	ability_preset_3		NVARCHAR(MAX),
-	CONSTRAINT pk_character_ability	PRIMARY KEY (ocid)
+	CONSTRAINT pk_character_ability	PRIMARY KEY (ocid),
+	CONSTRAINT fk_character_ability FOREIGN KEY (ocid) REFERENCES maple.character_basic (ocid)
 	);';
 
 --  캐릭터_어빌리티_정보_이력_테이블
@@ -305,7 +310,8 @@ BEGIN
 	medal_shape				NVARCHAR(MAX),
 	dragon_equipment		NVARCHAR(MAX),
 	mechanic_equipment		NVARCHAR(MAX),
-	CONSTRAINT pk_character_item_equipment	PRIMARY KEY (ocid)
+	CONSTRAINT pk_character_item_equipment	PRIMARY KEY (ocid),
+	CONSTRAINT fk_character_item_equipment  FOREIGN KEY (ocid) REFERENCES maple.character_basic (ocid)
 	);';
 
 --	캐릭터_장착_장비_정보_이력_테이블
@@ -347,7 +353,8 @@ BEGIN
 	additional_cash_item_equipment_preset_1		NVARCHAR(MAX),
 	additional_cash_item_equipment_preset_2		NVARCHAR(MAX),
 	additional_cash_item_equipment_preset_3		NVARCHAR(MAX),
-	CONSTRAINT pk_character_cashitem_equipment	PRIMARY KEY (ocid)
+	CONSTRAINT pk_character_cashitem_equipment	PRIMARY KEY (ocid),
+	CONSTRAINT fk_character_cashitem_equipment  FOREIGN KEY (ocid) REFERENCES maple.character_basic (ocid)
 	);';
 
 -- 캐릭터_장착_캐시_장비_정보_이력_테이블
@@ -383,7 +390,8 @@ BEGIN
 	ocid					NVARCHAR(64),
 	character_class			NVARCHAR(32),
 	symbol					NVARCHAR(MAX),
-	CONSTRAINT pk_character_symbol_equipment	PRIMARY KEY (ocid)
+	CONSTRAINT pk_character_symbol_equipment	PRIMARY KEY (ocid),
+	CONSTRAINT fk_character_symbol_equipment 	FOREIGN KEY (ocid) REFERENCES maple.character_basic (ocid)
 	);';
 
 --	캐릭터_장착_심볼_정보_이력_테이블
@@ -405,7 +413,8 @@ BEGIN
 	[date]					NVARCHAR(32),
 	ocid					NVARCHAR(64),
 	set_effect				NVARCHAR(MAX),
-	CONSTRAINT pk_character_set_effect	PRIMARY KEY (ocid)
+	CONSTRAINT pk_character_set_effect	PRIMARY KEY (ocid),
+	CONSTRAINT fk_character_set_effect 	FOREIGN KEY (ocid) REFERENCES maple.character_basic (ocid)
 	);';
 
 -- 캐릭터_적용_세트_효과_정보_이력_테이블
@@ -433,7 +442,8 @@ BEGIN
 	additional_character_hair	NVARCHAR(MAX),
 	additional_character_face	NVARCHAR(MAX),
 	additional_character_skin	NVARCHAR(MAX),
-	CONSTRAINT pk_character_beauty_equipment	PRIMARY KEY (ocid)
+	CONSTRAINT pk_character_beauty_equipment	PRIMARY KEY (ocid),
+	CONSTRAINT fk_character_beauty_equipment 	FOREIGN KEY (ocid) REFERENCES maple.character_basic (ocid)
 	);';
 
 -- 캐릭터_외관_정보_이력_테이블
@@ -477,7 +487,8 @@ BEGIN
 	android_preset_1				NVARCHAR(MAX),
 	android_preset_2				NVARCHAR(MAX),
 	android_preset_3				NVARCHAR(MAX),
-	CONSTRAINT pk_character_android_equipment	PRIMARY KEY(ocid)
+	CONSTRAINT pk_character_android_equipment	PRIMARY KEY(ocid),
+	CONSTRAINT fk_character_android_equipment 	FOREIGN KEY (ocid) REFERENCES maple.character_basic (ocid)
 	);';
 
 -- 캐릭터_장착_안드로이드_정보_이력_테이블
