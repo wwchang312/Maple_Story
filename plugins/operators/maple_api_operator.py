@@ -1,6 +1,7 @@
 from airflow.sdk.bases.operator import BaseOperator
 from airflow.hooks.base import BaseHook
 from airflow.sdk import Variable
+import json
 
 class MapleApiOperator(BaseOperator):
 
@@ -42,7 +43,7 @@ class MapleApiOperator(BaseOperator):
 
     def _call_api(self,base_url,data_nm,headers,date:str | None=None, ocid:str | None = None):
         import requests
-        import json
+        
 
         request_url=base_url+data_nm
 
