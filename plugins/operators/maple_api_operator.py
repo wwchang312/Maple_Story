@@ -1,7 +1,6 @@
 from airflow.sdk.bases.operator import BaseOperator
 from airflow.hooks.base import BaseHook
 from airflow.sdk import Variable
-import json
 
 class MapleApiOperator(BaseOperator):
 
