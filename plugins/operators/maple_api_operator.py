@@ -24,9 +24,7 @@ class MapleApiOperator(BaseOperator):
         from airflow.providers.odbc.hooks.odbc import OdbcHook
 
         con = self._call_api(self.base_url,self.data_nm,self.headers,self.date,self.ocid)
-        
-        # self.data_nm = self.data_nm.replace('/','_').replace('-','_')
-        # self.ocid=self.ocid.replace('ocid=','')
+
         data=self.json_dumping(con) 
 
         #Mssql Server connect
