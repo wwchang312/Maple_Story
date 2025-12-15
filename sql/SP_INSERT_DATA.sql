@@ -86,22 +86,23 @@ BEGIN
 	-- 이력 테이블에 데이터 INSERT	
 		SET @sql = N'INSERT INTO ' +@schema_nm +N'.'+@table_nm +N'_hist ('+@col+')'+ @sur +N';';
 		
-		EXEC sp_executesql @sql;
+		SET @sql += N'TRUNCATE TABLE '+ @schema_nm +'.'+@table_nm + ';';
 		
+		SET @sql += N'INSERT INTO ' +@schema_nm +'.'+@table_nm +'('+@col+') '+ @sur +';';
+
+	
+	END
+	ELSE
+	BEGIN
+		SET @sql = N'TRUNCATE TABLE '+ @schema_nm +'.'+@table_nm + ';';
+		
+		SET @sql += N'INSERT INTO ' +@schema_nm +'.'+@table_nm +'('+@col+') '+ @sur +';';
+
 	END
 	
 	
-	-- 타겟 테이블 TRUNCATE 및 INSERT 수행
 	
-	SET @sql = N'TRUNCATE TABLE '+ @schema_nm +'.'+@table_nm + ';';
-	SET @sql += N'INSERT INTO ' +@schema_nm +'.'+@table_nm +'('+@col+') '+ @sur +';';
-		
-	
---	PRINT @sql;
 	EXEC sp_executesql @sql;
-		
-	
-	
 	
 	
 END
