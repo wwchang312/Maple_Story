@@ -69,7 +69,7 @@ class MapleApiOperator(BaseOperator):
         return contents
 
     ## json 문자열 dumping
-    def json_dumping(contents, test):
+    def json_dumping(contents:dict , test):
 
         empty_list=[]
 
