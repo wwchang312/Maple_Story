@@ -27,7 +27,6 @@ class MapleApiOperator(BaseOperator):
         
         # self.data_nm = self.data_nm.replace('/','_').replace('-','_')
         # self.ocid=self.ocid.replace('ocid=','')
-        print(type(con))
         data=self.json_dumping(con) 
 
         #Mssql Server connect
@@ -36,6 +35,7 @@ class MapleApiOperator(BaseOperator):
         
         json=data
         table_nm = self.data_nm.replace('/','_').replace('-','_')
+        print(table_nm)
         params=(table_nm,json)
         hook.run(sql,parameters=params)
 
