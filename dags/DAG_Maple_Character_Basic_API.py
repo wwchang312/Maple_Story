@@ -44,7 +44,7 @@ with DAG(
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
         data_nm='character/basic',
-        date = """{% if datetime_diff_for_humans(data_interval_start) !=0 %} {{ ds }} {% endif %}"""
+        date = """{% if ds != macros.utcnow().in_timezone('Asia/Seoul').strftime('%Y-%m-%d') %} {{ ds }} {% endif %}"""
         ).expand(
             ocid=generate_param_task.output,
             )
