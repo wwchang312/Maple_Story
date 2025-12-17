@@ -1,5 +1,5 @@
 from airflow import DAG
-from operators.Maple_API_Operator import MapleApiOperator
+from plugins.operators.Maple_API_Operator import MapleApiOperator
 import pendulum
 
 with DAG(
