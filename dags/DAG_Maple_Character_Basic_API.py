@@ -45,11 +45,7 @@ with DAG(
         task_id='Maple_Character_Basic_ETL_Task',
         data_nm='character/basic',
         date =""" 
-            {% if ds ==  macros.datetime.strftime(macros.datetime.now(), '%Y%m%d') %}
-            {{ none }}
-            {% else %}
-            {{ds}}
-            {% endif %}
+            {% if ds ==  macros.datetime.strftime(macros.datetime.now(), '%Y%m%d') %} {{ none }} {% else %} {{ds}} {% endif %}
               """
         ).expand(
             ocid=generate_param_task.output,
