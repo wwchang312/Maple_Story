@@ -1,9 +1,9 @@
 from airflow import DAG
-from operators.maple_api_operator import MapleApiOperator
+from operators.Maple_API_Operator import MapleApiOperator
 import pendulum
 
 with DAG(
-    dag_id ='dag_api_character_list',
+    dag_id ='DAG_Maple_Character_List_API',
     schedule= None,
     start_date=pendulum.datetime(2025,8,1,tz="Asia/Seoul"),
     tags= ['maple','character list'],
@@ -11,8 +11,8 @@ with DAG(
     catchup=False
 ) as dag:
     
-    maple_character_list_ETL_task = MapleApiOperator(
-        task_id='maple_character_list_ETL_task',
+    Maple_Character_List_ETL_Task = MapleApiOperator(
+        task_id='Maple_Character_List_ETL_Task',
         data_nm='character/list'
     )
 
