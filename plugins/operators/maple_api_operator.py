@@ -5,7 +5,7 @@ import json
 
 class MapleApiOperator(BaseOperator):
 
-    template_fields= ('data_nm','ocid',)
+    template_fields= ('data_nm','ocid','date')
 
     def __init__(self,data_nm,date:str | None=None,ocid: str | None = None,**kwargs):
         '''
