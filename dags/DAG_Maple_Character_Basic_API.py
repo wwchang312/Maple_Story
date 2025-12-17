@@ -44,7 +44,7 @@ with DAG(
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
         data_nm='character/basic',
-        date = """{% if ds != now().strftime('%Y-%m-%d') %} {{ ds }} {% else %} {{None}} {% endif %}"""
+        date = """{% if ds != macros.datetime.datetime.now().strftime('%Y-%m-%d') %} {{ ds }} {% else %} {{None}} {% endif %}"""
         ).expand(
             ocid=generate_param_task.output,
             )
@@ -54,7 +54,7 @@ with DAG(
 
     bash_test = BashOperator(
         task_id = 'test',
-        env={'t':"""{{now().strftime('%Y-%m-%d')}}"""},
+        env={'t':"""{{macros.datetime.datetime.now().strftime('%Y-%m-%d')}}"""},
         bash_command= 'echo $t'
     )
 
