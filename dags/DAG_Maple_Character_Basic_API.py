@@ -50,7 +50,13 @@ with DAG(
             )
 
         
+    from airflow.providers.standard.operators.bash import BashOperator
 
+    bash_test = BashOperator(
+        task_id = 'test',
+        env={'t':"""{{data_interval_end.strftime('%Y-%m-%d')}}"""},
+        bash_command= 'echo $t'
+    )
 
 
 
