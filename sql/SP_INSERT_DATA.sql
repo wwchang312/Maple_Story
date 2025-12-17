@@ -50,7 +50,6 @@ BEGIN
 	
 	-- KEY값 추출
 	DECLARE @KeyList TABLE (col SYSNAME);
-	DECLARE @on NVARCHAR(MAX);
 	DECLARE @up_col NVARCHAR(MAX);
 	
 	INSERT INTO @KeyList 
@@ -58,14 +57,6 @@ BEGIN
 				FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE kcu 
 				WHERE kcu.TABLE_NAME =@table_nm and kcu.TABLE_SCHEMA =@schema_nm;
 
-	
-	
-	-- ON 조건문 생성
-	SELECT @on = STRING_AGG(CONCAT('t.',QUOTENAME(col),' = ','s.',QUOTENAME(col)),'AND')
-	FROM @KeyList;
-	
-	
-	
 	
 	-- 테이블 컬럼 추출
 	DECLARE @col NVARCHAR(MAX);
