@@ -1,15 +1,15 @@
 from airflow import DAG
-from plugins.operators.maple_api_operator import MapleApiOperator
+from operators.Maple_API_Operator import MapleApiOperator
 import pendulum
 from airflow.providers.odbc.hooks.odbc import OdbcHook
 from airflow.providers.standard.operators.python import PythonOperator
 from airflow.sdk import Variable
 
 with DAG(
-    dag_id ='dag_api_character_basic',
+    dag_id ='DAG_Maple_Character_Basic_API',
     schedule= None,
     start_date=pendulum.datetime(2025,8,1,tz="Asia/Seoul"),
-    tags= ['maple','Character Basic Info '],
+    tags= ['Maple','Character Basic Info','캐릭터 기본 정보'],
     description="캐릭터 기본 정보 조회",
     catchup=False,
     default_args={
@@ -19,7 +19,7 @@ with DAG(
 
     def ocid_list(**kwargs):
         hook = OdbcHook(odbc_conn_id='conn-db-mssql-maple',driver="ODBC Driver 18 for SQL Server")  #Airflow connection정보
-        sql = "SELECT ocid FROM character_list where world_name='챌린저스4' ;" #일일 호출 제한이 있기 때문에 현재 지속적으로 정보 변경이 있는 캐릭터를 대상으로 변경
+        sql = "SELECT ocid FROM vw_character_list where world_name='루나';" #일일 호출 제한이 있기 때문에 현재 지속적으로 정보 변경이 있는 캐릭터를 대상으로 변경
         rows= hook.get_records(sql)
         
         return [r[0] for r in rows] #ocid 리스트 형태로 적재
@@ -44,7 +44,7 @@ with DAG(
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
         data_nm='character/basic',
-        date = Variable.get("maple_date") #기준일인 date 파라미터는 Airflow Variable을 통해 관리 (타 DAG에도 동일한 값을 적용하기 위함)
+        date = '{{ds}}'
         ).expand(
             ocid=generate_param_task.output,
             )
