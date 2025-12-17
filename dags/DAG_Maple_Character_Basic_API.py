@@ -19,7 +19,7 @@ with DAG(
 
     def ocid_list(**kwargs):
         hook = OdbcHook(odbc_conn_id='conn-db-mssql-maple',driver="ODBC Driver 18 for SQL Server")  #Airflow connection정보
-        sql = "SELECT ocid FROM vw_character_list where world_name='루나';" #일일 호출 제한이 있기 때문에 현재 지속적으로 정보 변경이 있는 캐릭터를 대상으로 변경
+        sql = "SELECT ocid FROM vw_character_list where character_level = 282;" #일일 호출 제한이 있기 때문에 현재 지속적으로 정보 변경이 있는 캐릭터를 대상으로 변경
         rows= hook.get_records(sql)
         
         return [r[0] for r in rows] #ocid 리스트 형태로 적재
@@ -44,7 +44,13 @@ with DAG(
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
         data_nm='character/basic',
-        date = '{{ds}}'
+        date =""" 
+            {% if ds ==  macros.datetime.strftime(macros.datetime.now(), '%Y%m%d') %}
+            {{ none }}
+            {% else %}
+            {{ds}}
+            {% endif %}
+              """
         ).expand(
             ocid=generate_param_task.output,
             )
