@@ -1,5 +1,5 @@
 from airflow import DAG
-from operators.Maple_API_Operator import MapleApiOperator
+from operators.maple_api_operator import MapleApiOperator
 import pendulum
 from airflow.providers.odbc.hooks.odbc import OdbcHook
 from airflow.providers.standard.operators.python import PythonOperator
@@ -44,7 +44,7 @@ with DAG(
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
         data_nm='character/basic',
-        date = """{% if ds != macros.datetime.today().strftime('%Y-%m-%d') %} {{ ds }} {% endif %}"""
+        date = "{{ds}}"
         ).expand(
             ocid=generate_param_task.output,
             )
