@@ -2,6 +2,7 @@ from airflow.sdk.bases.operator import BaseOperator
 from airflow.hooks.base import BaseHook
 from airflow.sdk import Variable
 import json
+from datetime import datetime
 
 class MapleApiOperator(BaseOperator):
 
@@ -46,6 +47,10 @@ class MapleApiOperator(BaseOperator):
 
         request_url=base_url+data_nm
 
+        #date를 파라미터로 받을 때, 오늘 날짜는 date 파라미터를 받지 않기 때문에 None으로 처리한다.
+        if self.date == datetime.now().strftime("%Y-%m-%d"):
+            self.date = None
+        
         if ocid is not None and date is not None:
             request_url +='?'+ocid + '&date=' + date
         elif ocid is not None:
