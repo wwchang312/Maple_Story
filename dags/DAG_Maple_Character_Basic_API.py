@@ -22,14 +22,12 @@ with DAG(
                     description = "캐릭터 이름 입력"
             ),
             "from_date" : Param(
-                    f"{datetime.today()}",
                     type = ["null","string"],
                     format = "date",
                     title = "조회 시작일",
                     description= "조회 기준일 시작일자"
             ),
             "to_date" : Param(
-                    f"{datetime.today()}",
                     type = ["null","string"],
                     format = "date",
                     title = "조회 종료일",
