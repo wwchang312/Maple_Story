@@ -55,6 +55,9 @@ with DAG(
         
         rows=hook.get_records(sql,parameters=params)
         
+        print(sql)
+        print(rows)
+
         return [r[0] for r in rows] #ocid 리스트 형태로 적재
     
     #make ocid list
