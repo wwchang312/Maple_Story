@@ -5,6 +5,7 @@ from airflow.providers.odbc.hooks.odbc import OdbcHook
 from airflow.providers.standard.operators.python import PythonOperator
 from airflow.sdk import Variable, Param
 from datetime import datetime, timedelta, date
+from common.build_clause import build_in_clause
 
 with DAG(
     dag_id ='DAG_Maple_Character_Basic_API',
@@ -48,12 +49,13 @@ with DAG(
         hook = OdbcHook(odbc_conn_id='conn-db-mssql-maple',driver="ODBC Driver 18 for SQL Server")  #Airflow connection정보
         sql = "SELECT ocid FROM vw_character_list WHERE 1=1" 
         
-        if char_nm :
-            char_nm=[char_nm]
-            char_nm_lis = ",".join(["?"] * len(char_nm))
-            sql += f' AND character_name IN ({char_nm_lis})'
-
-        rows= hook.get_records(sql,parameters=char_nm_lis)
+        if char_nm:
+            clause, params = build_in_clause(char_nm)
+            sql += f' AND character_name {clause}'
+            rows= hook.get_records(sql,parameters=params)
+        
+        
+        rows=hook.get_records(sql)
         
         return [r[0] for r in rows] #ocid 리스트 형태로 적재
     
