@@ -4,7 +4,7 @@ import pendulum
 from airflow.providers.odbc.hooks.odbc import OdbcHook
 from airflow.providers.standard.operators.python import PythonOperator
 from airflow.sdk import Variable, Param
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 with DAG(
     dag_id ='DAG_Maple_Character_Basic_API',
@@ -22,14 +22,14 @@ with DAG(
                     description = "캐릭터 이름 입력"
             ),
             "from_date" : Param(
-                    f'{datetime.today()}',
+                    f'{date.today()}',
                     type = ["null","string"],
                     format = "date",
                     title = "조회 시작일",
                     description= "조회 기준일 시작일자"
             ),
             "to_date" : Param(
-                    f'{datetime.today()}',
+                    f'{date.today()}',
                     type = ["null","string"],
                     format = "date",
                     title = "조회 종료일",
