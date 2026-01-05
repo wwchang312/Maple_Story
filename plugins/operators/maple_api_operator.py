@@ -67,7 +67,7 @@ class MapleApiOperator(BaseOperator):
         contents=json.loads(response.text)
         
         if ocid is not None:
-            contents['ocid'] = ocid[5:]  #ocid를 파라미터로 받는 경우 별도로 받는 ocid 컬럼이 없으므로 임의로 추가함.
+            contents['ocid'] = ocid  #ocid를 파라미터로 받는 경우 별도로 받는 ocid 컬럼이 없으므로 임의로 추가함.
     
         return contents
 
