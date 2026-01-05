@@ -86,7 +86,7 @@ with DAG(
     )
 
     view_date_task = PythonOperator(
-        taks_id ='view_date_task',
+        task_id ='view_date_task',
         python_callable='task_run_from_to_retriever',
     )
 
