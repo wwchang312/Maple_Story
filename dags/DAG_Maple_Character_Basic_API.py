@@ -69,8 +69,6 @@ with DAG(
         if isinstance(to_date,str):
             to_date = datetime.strptime(to_date,"%Y-%m-%d")
 
-        print(f'{from_date}부터 {to_date}까지 정보를 조회합니다.')
-
         return [(from_date + timedelta(days=i)).strftime("%Y-%m-%d") for i in range((to_date-from_date).days +1)]
 
 
