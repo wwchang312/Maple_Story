@@ -52,9 +52,9 @@ class MapleApiOperator(BaseOperator):
             self.date = None
         
         if ocid is not None and date is not None:
-            request_url +='?'+ocid + '&date=' + date
+            request_url +='?ocid='+ocid + '&date=' + date
         elif ocid is not None:
-            request_url +='?'+ocid
+            request_url +='?ocid='+ocid
         elif date is not None:
             request_url +='?'+'date='+date
 
