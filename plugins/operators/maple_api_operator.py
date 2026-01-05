@@ -38,8 +38,6 @@ class MapleApiOperator(BaseOperator):
         params=(table_nm,json)
         hook.run(sql,parameters=params)
 
-        
-    
 
     def _call_api(self,base_url,data_nm,headers,date:str | None=None, ocid:str | None = None):
         import requests
@@ -49,7 +47,7 @@ class MapleApiOperator(BaseOperator):
 
         #date를 파라미터로 받을 때, 오늘 날짜는 date 파라미터를 받지 않기 때문에 None으로 처리한다.
         if self.date == datetime.now().strftime("%Y-%m-%d"):
-            self.date = None
+            date = None
         
         if ocid is not None and date is not None:
             request_url +='?ocid='+ocid + '&date=' + date
