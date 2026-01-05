@@ -16,6 +16,6 @@ def build_in_clause(values):
         return None , []
     
     placeholders = ",".join(["?"] * len(vals))
-    return f"IN ({placeholders})", vals
+    return f" IN ({placeholders})", vals
 
 
