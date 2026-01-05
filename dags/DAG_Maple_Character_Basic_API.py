@@ -49,9 +49,11 @@ with DAG(
         sql = "SELECT ocid FROM vw_character_list WHERE 1=1" 
         
         if char_nm :
-            sql += 'AND character_name = ' + char_nm
+            char_nm=list(char_nm)
+            char_nm_lis = ",".join(["?"] * len(char_nm))
+            sql += f' AND character_name IN ({char_nm_lis})'
 
-        rows= hook.get_records(sql)
+        rows= hook.get_records(sql,parameters=char_nm)
         
         return [r[0] for r in rows] #ocid 리스트 형태로 적재
     
