@@ -22,12 +22,14 @@ with DAG(
                     description = "캐릭터 이름 입력"
             ),
             "from_date" : Param(
+                    f'{datetime.date.today()}',
                     type = ["null","string"],
                     format = "date",
                     title = "조회 시작일",
                     description= "조회 기준일 시작일자"
             ),
             "to_date" : Param(
+                    f'{datetime.date.today()}',
                     type = ["null","string"],
                     format = "date",
                     title = "조회 종료일",
@@ -62,9 +64,9 @@ with DAG(
         return [f'{x}'for x in ocids]
     
     #view date
-    def task_run_from_to_retriever(data_interval_end=None,**kwargs):
-        from_date = kwargs.get('params').get('from_date') or kwargs.get(data_interval_end)
-        to_date = kwargs.get('param').get('to_date') or kwargs.get(data_interval_end)
+    def task_run_from_to_retriever(**kwargs):
+        from_date = kwargs.get('params').get('from_date') or kwargs.get('data_interval_end')
+        to_date = kwargs.get('param').get('to_date') or kwargs.get('data_interval_end')
 
         if isinstance(from_date,str):
             from_date = datetime.strptime(from_date,"%Y-%m-%d")
