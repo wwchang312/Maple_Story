@@ -69,6 +69,8 @@ with DAG(
         if isinstance(to_date,str):
             to_date = datetime.strptime(to_date,"%Y-%m-%d")
 
+        print(f'{from_date}부터 {to_date}까지 정보를 조회합니다.')
+
         return [(from_date + timedelta(days=i)).strftime("%Y-%m-%d") for i in range((to_date-from_date).days +1)]
 
 
@@ -85,7 +87,7 @@ with DAG(
 
     view_date_task = PythonOperator(
         task_id ='view_date_task',
-        python_callable='task_run_from_to_retriever'
+        python_callable=task_run_from_to_retriever
     )
 
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
