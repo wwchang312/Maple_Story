@@ -53,7 +53,7 @@ with DAG(
             char_nm_lis = ",".join(["?"] * len(char_nm))
             sql += f' AND character_name IN ({char_nm_lis})'
 
-        rows= hook.get_records(sql,parameters=char_nm)
+        rows= hook.get_records(sql,parameters=char_nm_lis)
         
         return [r[0] for r in rows] #ocid 리스트 형태로 적재
     
@@ -77,7 +77,7 @@ with DAG(
 
 
     ocid_list_task=PythonOperator(
-        task_id='ocid_list',
+        task_id='ocid_list_task',
         python_callable=get_ocid_list
     )
 

@@ -140,7 +140,8 @@ BEGIN
 	character_date_create	NVARCHAR(32),		--캐릭터 생성일
 	access_flag				NVARCHAR(8),		--최근 7일간 접속 여부
 	liberation_quest_clear	NVARCHAR(8),		--해방 퀘스트 완료 여부 (0:미완료, 1:제네시스 무기 해방, 2:데스티니 무기 1차 해방)
-	CONSTRAINT pk_character_basic_hist PRIMARY KEY (update_date,ocid)
+	CONSTRAINT pk_character_basic_hist PRIMARY KEY (update_date,ocid),
+	CONSTRAINT fk_character_basic_hist FOREIGN KEY (ocid) REFERENCES character_basic (ocid)
 	);';
 
 --	캐릭터_인기도_정보_테이블
