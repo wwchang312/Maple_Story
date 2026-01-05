@@ -87,7 +87,7 @@ with DAG(
 
     view_date_task = PythonOperator(
         task_id ='view_date_task',
-        python_callable='task_run_from_to_retriever',
+        python_callable='task_run_from_to_retriever'
     )
 
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
