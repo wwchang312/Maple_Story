@@ -49,7 +49,7 @@ with DAG(
         sql = "SELECT ocid FROM vw_character_list WHERE 1=1" 
         
         if char_nm :
-            char_nm=list(char_nm)
+            char_nm=[char_nm]
             char_nm_lis = ",".join(["?"] * len(char_nm))
             sql += f' AND character_name IN ({char_nm_lis})'
 
@@ -62,9 +62,9 @@ with DAG(
         return [f'{x}'for x in ocids]
     
     #view date
-    def task_run_from_to_retriever(**kwargs):
-        from_date = kwargs.get('params').get('from_date') or kwargs.get('data_interval_end')
-        to_date = kwargs.get('param').get('to_date') or kwargs.get('data_interval_end')
+    def task_run_from_to_retriever(data_interval_end=None,**kwargs):
+        from_date = kwargs.get('params').get('from_date') or kwargs.get(data_interval_end)
+        to_date = kwargs.get('param').get('to_date') or kwargs.get(data_interval_end)
 
         if isinstance(from_date,str):
             from_date = datetime.strptime(from_date,"%Y-%m-%d")
