@@ -64,8 +64,17 @@ class MapleApiOperator(BaseOperator):
         
         contents=json.loads(response.text)
         
+        #ocid 추가
         if ocid is not None:
             contents['ocid'] = ocid  #ocid를 파라미터로 받는 경우 별도로 받는 ocid 컬럼이 없으므로 임의로 추가함.
+        
+        #date 추가
+        '''
+        조회 당일 날짜의 경우 date의 값이 null이기 때문에 이를 임의로 이전 날짜 형태와 동일하게 생성하여 추가함.
+        이력 테이블에 호출 시간 날짜를 별도로 기록하고 있기 때문에, 모든 시간을 00:00으로 통일해도 지장 없다고 판단
+        '''
+        if contents['date'] is None:
+            contents['date'] = datetime.now().strftime("%Y-%m-%dT00:00+09:00") 
     
         return contents
 
