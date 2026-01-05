@@ -52,10 +52,8 @@ with DAG(
         if char_nm:
             clause, params = build_in_clause(char_nm)
             sql += f' AND character_name {clause}'
-            rows= hook.get_records(sql,parameters=params)
         
-        
-        rows=hook.get_records(sql)
+        rows=hook.get_records(sql,parameters=params)
         
         return [r[0] for r in rows] #ocid 리스트 형태로 적재
     
