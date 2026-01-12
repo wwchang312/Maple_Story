@@ -35,7 +35,7 @@ class MapleApiOperator(BaseOperator):
         json=data
         table_nm = self.data_nm.replace('/','_').replace('-','_')
         params=(table_nm,json)
-        print(params)
+        print(f'테이블 {table_nm}으로 데이터를 업데이트합니다.')
         hook.run(sql,parameters=params)
 
 

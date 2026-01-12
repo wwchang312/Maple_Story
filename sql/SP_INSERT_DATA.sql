@@ -112,7 +112,7 @@ BEGIN
 		
 --		SET @sql += N'INSERT INTO ' +@schema_nm +'.'+@table_nm +'('+@col+') '+ @sur +';';
 		
-		SET @sql = N'MERGE INTO '+@schema_nm+'.'+@table_nm + N't USING  (' + @sur +' ) s ON ' + @on + 
+		SET @sql = N'MERGE INTO '+@schema_nm+'.'+@table_nm + N' t USING  (' + @sur +' ) s ON ' + @on + 
 					 N' WHEN MATCHED THEN UPDATE SET ' + @up_col+
 					 N' WHEN NOT MATCHED THEN INSERT (' +@tar_col + N' ) VALUES (' +@sur_col+');' ;
 
