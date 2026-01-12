@@ -7,7 +7,7 @@ def normalize_value(v):
         return []
     if isinstance(v,str):
         v=v.split(',')
-        return[v]
+        return v
     return list(v)
 
 def build_in_clause(values):
