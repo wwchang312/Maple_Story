@@ -18,9 +18,10 @@ with DAG(
         'pool':'maple_pool' #개발 API의 경우 초당 최대 호출 수가 5건이기 때문에 slot이 5개인 pool을 별도로 지정하여 이용 
     },
     params={"character_name":Param(
-                    type = ["null","string"],
+                    type = ["null","array"],
                     title = "호출 대상 캐릭터명",
-                    description = "캐릭터 이름 입력"
+                    description = "캐릭터 이름 입력",
+                    items={"type":"string"}
             ),
             "from_date" : Param(
                     type = ["null","string"],
@@ -51,7 +52,7 @@ with DAG(
         
         if char_nm:
             clause, params = build_in_clause(char_nm)
-            sql += f' AND character_name {clause}'
+            sql += f' AND character_name IN {clause}'
         
         rows=hook.get_records(sql,parameters=params)
         
