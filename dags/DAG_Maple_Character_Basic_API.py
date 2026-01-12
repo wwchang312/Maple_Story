@@ -18,10 +18,9 @@ with DAG(
         'pool':'maple_pool' #개발 API의 경우 초당 최대 호출 수가 5건이기 때문에 slot이 5개인 pool을 별도로 지정하여 이용 
     },
     params={"character_name":Param(
-                    type = ["null","array"],
+                    type = ["null","string"],
                     title = "호출 대상 캐릭터명",
-                    description = "캐릭터 이름 입력",
-                    items={"type":"string"}
+                    description = "캐릭터 이름 입력"
             ),
             "from_date" : Param(
                     type = ["null","string"],
