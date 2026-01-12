@@ -34,7 +34,7 @@ class MapleApiOperator(BaseOperator):
         
         json=data
         table_nm = self.data_nm.replace('/','_').replace('-','_')
-        print(table_nm)
+        print(sql)
         params=(table_nm,json)
         hook.run(sql,parameters=params)
 
