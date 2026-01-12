@@ -73,8 +73,9 @@ class MapleApiOperator(BaseOperator):
         조회 당일 날짜의 경우 date의 값이 null이기 때문에 이를 임의로 이전 날짜 형태와 동일하게 생성하여 추가함.
         이력 테이블에 호출 시간 날짜를 별도로 기록하고 있기 때문에, 모든 시간을 00:00으로 통일해도 지장 없다고 판단
         '''
-        if contents['date'] is None:
-            contents['date'] = datetime.now().strftime("%Y-%m-%dT00:00+09:00") 
+        if 'date' in contents.keys():  #date 파라미터가 있는 경우에만 로직을 타도록 변경
+            if contents['date'] is None:
+                contents['date'] = datetime.now().strftime("%Y-%m-%dT00:00+09:00") 
     
         return contents
 
@@ -90,6 +91,7 @@ class MapleApiOperator(BaseOperator):
         else:
             empty_list = contents
 
+        
         json_str=json.dumps(empty_list,ensure_ascii=False)
         json_str=json_str.replace("'","''") #일부 값이 '가 들어있어 dumping 과정에서 문자열이 손상되는 경우가 있어 이를 대비하기 위해 추가
         return json_str
