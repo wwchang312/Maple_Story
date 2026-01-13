@@ -100,7 +100,6 @@ with DAG(
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
         data_nm='character/basic',
-        outlets=maple_character_dataset
         ).expand(
             ocid=generate_param_task.output,
             date=view_date_task.output
