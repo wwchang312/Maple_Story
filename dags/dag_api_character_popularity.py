@@ -1,16 +1,18 @@
 from airflow import DAG
-from plugins.operators.maple_api_operator import MapleApiOperator
+from operators.maple_api_operator import MapleApiOperator
 import pendulum
 from airflow.providers.odbc.hooks.odbc import OdbcHook
 from airflow.providers.standard.operators.python import PythonOperator
-from airflow.sdk import Variable
+from airflow.sdk import Variable, Asset
+
+maple_character_dataset =Asset('maple_character_dataset')
 
 with DAG(
-    dag_id ='dag_api_character_popularity',
-    schedule= None,
+    dag_id ='DAG_Maple_Character_Popularity_API',
+    schedule= [maple_character_dataset],
     start_date=pendulum.datetime(2025,8,1,tz="Asia/Seoul"),
-    tags= ['maple','Character Pupularity Info '],
-    description="캐릭터 기본 정보 조회",
+    tags= ['Maple','인기도','Popularity'],
+    description="캐릭터 인기도 정보",
     catchup=False,
     default_args={
         'pool':'maple_pool' #개발 API의 경우 초당 최대 호출 수가 5건이기 때문에 slot이 5개인 pool을 별도로 지정하여 이용 

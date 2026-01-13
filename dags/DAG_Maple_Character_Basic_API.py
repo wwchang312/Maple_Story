@@ -3,9 +3,11 @@ from operators.maple_api_operator import MapleApiOperator
 import pendulum
 from airflow.providers.odbc.hooks.odbc import OdbcHook
 from airflow.providers.standard.operators.python import PythonOperator
-from airflow.sdk import Variable, Param
+from airflow.sdk import Variable, Param, Asset, Metadata
 from datetime import datetime, timedelta, date
 from common.build_clause import build_in_clause
+
+maple_character_dataset =Asset('maple_character_dataset')
 
 with DAG(
     dag_id ='DAG_Maple_Character_Basic_API',
@@ -98,6 +100,7 @@ with DAG(
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
         data_nm='character/basic',
+        outlets=maple_character_dataset
         ).expand(
             ocid=generate_param_task.output,
             date=view_date_task.output
