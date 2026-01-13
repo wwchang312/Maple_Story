@@ -62,7 +62,7 @@ BEGIN
 	SELECT @up_col=STRING_AGG(CONCAT('t.',COLUMN_NAME,' = ','s.',COLUMN_NAME),', ')
 	FROM INFORMATION_SCHEMA.COLUMNS c 
 	WHERE c.TABLE_SCHEMA = @schema_nm AND c.TABLE_NAME = @table_nm 
-	AND c.COLUMN_NAME not in (SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE c.TABLE_NAME   =  @table_nm );
+	AND c.COLUMN_NAME not in (SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = @schema_nm AND TABLE_NAME   =  @table_nm );
 	
 	
 	-- 테이블 컬럼 추출
@@ -120,8 +120,8 @@ BEGIN
 	
 	
 	
-	
-	EXEC sp_executesql @sql;
+	print(@sql);
+--	EXEC sp_executesql @sql;
 	
 	
 END
