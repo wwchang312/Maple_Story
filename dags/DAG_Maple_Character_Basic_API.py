@@ -97,7 +97,7 @@ with DAG(
         task_id='Maple_Character_Basic_ETL_Task',
         data_nm='character/basic',
         ).expand(
-            ocid=generate_param_task.output,
+            ocid=ocid_list_task.output,
             date=view_date_task.output
             )
     
