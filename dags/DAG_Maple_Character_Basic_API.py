@@ -2,11 +2,13 @@ from airflow import DAG
 from airflow.decorators import task
 from airflow.providers.odbc.hooks.odbc import OdbcHook
 from airflow.providers.standard.operators.python import PythonOperator
-from airflow.sdk import Variable, Param, AssetAlias, Metadata
+from airflow.sdk import Variable, Param, Asset, AssetAlias, Metadata
 from operators.maple_api_operator import MapleApiOperator
 import pendulum
 from datetime import datetime, timedelta, date
 from common.build_clause import build_in_clause
+
+ASSET_ALIAS_NAME = 'maple_asset_alias'
 
 with DAG(
     dag_id ='DAG_Maple_Character_Basic_API',
@@ -58,10 +60,6 @@ with DAG(
 
         return [r[0] for r in rows] #ocid 리스트 형태로 적재
     
-    #make ocid list
-#    def generate_param_list(ocids):
-#        return [f'{x}'for x in ocids]
-    
     #view date
     def task_run_from_to_retriever(**kwargs):
         from_date = kwargs.get('params').get('from_date') or kwargs.get('data_interval_end')
@@ -82,12 +80,6 @@ with DAG(
         python_callable=get_ocid_list
     )
 
-#    generate_param_task = PythonOperator(
-#        task_id='generate_param_task',
-#        python_callable=generate_param_list,
-#        op_args=[ocid_list_task.output]
-#    )
-
     view_date_task = PythonOperator(
         task_id ='view_date_task',
         python_callable=task_run_from_to_retriever
@@ -101,14 +93,17 @@ with DAG(
             date=view_date_task.output
             )
     
-#    @task(task_id='Asset_Publishing',
-#          outlets=[AssetAlias(ASSET_ALIAS_NAME)])
-#    def asset_publishing_with_metadata(**kwargs):
-#        outlet_events= kwargs.get('outlet_events')
-#
-#        yield Metadata(
-#                AssetAlias()
-#            )
+    @task(task_id='Asset_Publishing',
+          outlets=[AssetAlias(ASSET_ALIAS_NAME)])
+    def asset_publishing_with_metadata(**kwargs):
+        outlet_events= kwargs.get('outlet_events')
+        ocid=ocid_list_task.output
+
+        yield Metadata(
+            asset=Asset(f'update_{ocid}'),
+            extra={'view_date': view_date_task.output, 'ocid':ocid_list_task.output},
+            alias=AssetAlias(ASSET_ALIAS_NAME)
+            )
 
 
 
