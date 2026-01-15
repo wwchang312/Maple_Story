@@ -76,8 +76,8 @@ with DAG(
 
     def attach_extra(context,result=None):
 
-        param = context["params"]
-        print(param)
+        ti = context["ti"]
+        print(ti)
 #       context["outlet_events"][AssetAlias(ASSET_ALIAS_NAME)].add(Asset(f'update_{param['ocid']}'),extra=param)
 
 
