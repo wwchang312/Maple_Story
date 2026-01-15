@@ -24,16 +24,18 @@ with DAG(
     def inlet_from_asset(**kwargs):
         inlet_events = kwargs.get('inlet_events')
         events=inlet_events[maple_character_dataset]
-        print(events)
+        date = events[-1].extra['view_date']
+        ocid = events[-1].extra['ocid']
 
 
-#    Maple_Popularity_ETL_task = MapleApiOperator.partial(
-#        task_id='Maple_Popularity_ETL_task',
-#        data_nm='character/popularity',
-#        date = Variable.get("maple_date"), #기준일인 date 파라미터는 Airflow Variable을 통해 관리 (타 DAG에도 동일한 값을 적용하기 위함)
-#        ocid =
+    Maple_Popularity_ETL_task = MapleApiOperator(
+        task_id='Maple_Popularity_ETL_task',
+        data_nm='character/popularity',
+        date = inlet_from_asset().date,
+        ocid = inlet_from_asset().ocid
+        )
 
-        
+    inlet_from_asset() >> Maple_Popularity_ETL_task
 
 
 
