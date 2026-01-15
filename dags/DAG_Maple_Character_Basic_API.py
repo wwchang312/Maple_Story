@@ -26,12 +26,14 @@ with DAG(
                     description = "캐릭터 이름 입력"
             ),
             "from_date" : Param(
+                    date.today().strftime("%Y-%m-%d"),
                     type = ["null","string"],
                     format = "date",
                     title = "조회 시작일",
                     description= "조회 기준일 시작일자"
             ),
             "to_date" : Param(
+                    date.today().strftime("%Y-%m-%d"),
                     type = ["null","string"],
                     format = "date",
                     title = "조회 종료일",
@@ -77,10 +79,11 @@ with DAG(
     def attach_extra(context,result=None):
         ti = context['ti']
         idx = ti.map_index
-        view_date=ti.xcom_pull(task_ids='view_date_task',map_indexes=idx)
-        ocid=ti.xcom_pull(task_ids='ocid_list_task',map_indexes=idx)
+        view_date=ti.xcom_pull(task_ids='view_date_task')
+        ocid=ti.xcom_pull(task_ids='ocid_list_task')
         print(view_date)
         print(ocid)
+        print(ti)
 #       context["outlet_events"][AssetAlias(ASSET_ALIAS_NAME)].add(Asset(f'update_{param['ocid']}'),extra=param)
 
 
@@ -104,8 +107,8 @@ with DAG(
             date=view_date_task.output
             )
 
-    ocid_list_task >> view_date_task >> Maple_Character_Basic_ETL_task
-
+    ocid_list_task >>  Maple_Character_Basic_ETL_task
+    view_date_task >>  Maple_Character_Basic_ETL_task
 
 
 
