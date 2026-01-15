@@ -119,9 +119,7 @@ BEGIN
 	END
 	
 	
-	
-	print(@sql);
---	EXEC sp_executesql @sql;
+	EXEC sp_executesql @sql;
 	
 	
 END
