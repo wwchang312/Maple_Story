@@ -76,7 +76,7 @@ with DAG(
 
     def attach_extra(context,result=None):
         ti = context['ti']
-        idx = ti.index_map
+        idx = ti.map_index
         view_date=ti.xcom_pull(task_ids='view_date_task',map_indexes=idx)
         ocid=ti.xcom_pull(task_ids='ocid_list_task',map_indexes=idx)
         print(view_date)
