@@ -74,6 +74,11 @@ with DAG(
 
         return [(from_date + timedelta(days=i)).strftime("%Y-%m-%d") for i in range((to_date-from_date).days +1)]
 
+    def attach_extra(context,result=None):
+
+        param = context["params"]
+        context["outlet_events"][AssetAlias(ASSET_ALIAS_NAME)].add(Asset(f'update_{param['ocid']}'),extra=param)
+
 
     ocid_list_task=PythonOperator(
         task_id='ocid_list_task',
@@ -88,25 +93,14 @@ with DAG(
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
         data_nm='character/basic',
+        outlets=AssetAlias[ASSET_ALIAS_NAME],
+        post_execute=attach_extra
         ).expand(
             ocid=ocid_list_task.output,
             date=view_date_task.output
             )
-    
-    @task(task_id='asset_publishing_with_metadata',
-          outlets=[AssetAlias(ASSET_ALIAS_NAME)])
-    def asset_publishing_with_metadata(**kwargs):
-        outlet_events= kwargs.get('outlet_events')
-        ocid=ocid_list_task.output
 
-        yield Metadata(
-            asset=Asset(f'update_{ocid}'),
-            extra={'view_date': view_date_task.output, 'ocid':ocid_list_task.output},
-            alias=AssetAlias(ASSET_ALIAS_NAME)
-            )
-
-
-    ocid_list_task >> view_date_task >> Maple_Character_Basic_ETL_task >> asset_publishing_with_metadata()
+    ocid_list_task >> view_date_task >> Maple_Character_Basic_ETL_task
 
 
 
