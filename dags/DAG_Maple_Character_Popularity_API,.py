@@ -31,8 +31,8 @@ with DAG(
     Maple_Popularity_ETL_task = MapleApiOperator(
         task_id='Maple_Popularity_ETL_task',
         data_nm='character/popularity',
-        date = inlet_from_asset().date,
-        ocid = inlet_from_asset().ocid
+        date =inlet_from_asset.output['date'],
+        ocid =inlet_from_asset.output['ocid']
         )
 
     inlet_from_asset() >> Maple_Popularity_ETL_task
