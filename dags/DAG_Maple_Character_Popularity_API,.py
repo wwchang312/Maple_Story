@@ -24,9 +24,10 @@ with DAG(
     def inlet_from_asset(**kwargs):
         inlet_events = kwargs.get('inlet_events')
         events=inlet_events[maple_character_dataset]
-        date = events[-1].extra['view_date']
-        ocid = events[-1].extra['ocid']
-
+        return {
+        'date' : events[-1].extra['view_date'],
+        'ocid' : events[-1].extra['ocid']
+        }
 
     Maple_Popularity_ETL_task = MapleApiOperator(
         task_id='Maple_Popularity_ETL_task',
