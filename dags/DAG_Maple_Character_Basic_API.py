@@ -76,8 +76,9 @@ with DAG(
 
     def attach_extra(context,result=None):
         ti = context['ti']
-        print(ti)
-    
+        idx = ti.index_map
+        view_date=ti.xcom_pull(task_ids='view_date_task',map_indexes=idx)
+        ocid=ti.xcom_pull(task_ids='ocid_list_task',map_indexes=idx)
 #       context["outlet_events"][AssetAlias(ASSET_ALIAS_NAME)].add(Asset(f'update_{param['ocid']}'),extra=param)
 
 
