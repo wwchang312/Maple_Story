@@ -93,7 +93,7 @@ with DAG(
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
         data_nm='character/basic',
-        outlets=AssetAlias(ASSET_ALIAS_NAME),
+        outlets=[AssetAlias(ASSET_ALIAS_NAME)],
         post_execute=attach_extra
         ).expand(
             ocid=ocid_list_task.output,
