@@ -59,13 +59,17 @@ with DAG(
             sql += f' AND character_name IN {clause}'
         
         rows=hook.get_records(sql,parameters=params)
+        return_value = [r[0] for r in rows]
 
-        return [r[0] for r in rows] #ocid 리스트 형태로 적재
+        ti= kwargs['ti']
+        ti.xcom_push(key='ocid',value=return_value)
+
+        return return_value #ocid 리스트 형태로 적재
     
     #view date
     def task_run_from_to_retriever(**kwargs):
-        from_date = kwargs.get('params').get('from_date') or kwargs.get('data_interval_end')
-        to_date = kwargs.get('params').get('to_date') or kwargs.get('data_interval_end')
+        from_date = kwargs.get('params').get('from_date') or date.today().strftime("%Y-%m-%d")
+        to_date = kwargs.get('params').get('to_date') or date.today().strftime("%Y-%m-%d")
 
         if isinstance(from_date,str):
             from_date = datetime.strptime(from_date,"%Y-%m-%d")
@@ -73,8 +77,14 @@ with DAG(
             to_date = datetime.strptime(to_date,"%Y-%m-%d")
 
         print(f'{from_date}부터 {to_date}까지 정보를 조회합니다.')
+        
+        return_value=[(from_date + timedelta(days=i)).strftime("%Y-%m-%d") for i in range((to_date-from_date).days +1)]
+        
+        #Xcom vlaue로 전달하며 meta data로 다음 Dag으로 전달
+        ti = kwargs['ti']
+        ti.xcom_push(key='view_date',value=return_value)
 
-        return [(from_date + timedelta(days=i)).strftime("%Y-%m-%d") for i in range((to_date-from_date).days +1)]
+        return return_value
 
     def attach_extra(context,result=None):
         ti = context['ti']
