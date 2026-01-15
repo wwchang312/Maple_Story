@@ -77,7 +77,8 @@ with DAG(
     def attach_extra(context,result=None):
 
         param = context["params"]
-        context["outlet_events"][AssetAlias(ASSET_ALIAS_NAME)].add(Asset(f'update_{param['ocid']}'),extra=param)
+        print(param)
+#       context["outlet_events"][AssetAlias(ASSET_ALIAS_NAME)].add(Asset(f'update_{param['ocid']}'),extra=param)
 
 
     ocid_list_task=PythonOperator(
