@@ -75,7 +75,8 @@ with DAG(
         return [(from_date + timedelta(days=i)).strftime("%Y-%m-%d") for i in range((to_date-from_date).days +1)]
 
     def attach_extra(self,context,result=None):
-        print(result)
+        ti = context['ti']
+        print(ti.map_index)
     
 #       context["outlet_events"][AssetAlias(ASSET_ALIAS_NAME)].add(Asset(f'update_{param['ocid']}'),extra=param)
 
