@@ -93,7 +93,7 @@ with DAG(
             date=view_date_task.output
             )
     
-    @task(task_id='Asset_Publishing',
+    @task(task_id='asset_publishing_with_metadata',
           outlets=[AssetAlias(ASSET_ALIAS_NAME)])
     def asset_publishing_with_metadata(**kwargs):
         outlet_events= kwargs.get('outlet_events')
@@ -105,6 +105,8 @@ with DAG(
             alias=AssetAlias(ASSET_ALIAS_NAME)
             )
 
+
+    ocid_list_task >> view_date_task >> Maple_Character_Basic_ETL_task >> asset_publishing_with_metadata()
 
 
 
