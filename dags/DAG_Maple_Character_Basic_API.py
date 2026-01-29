@@ -86,7 +86,9 @@ with DAG(
         
         ocid = getattr(task,'ocid',None)
         view_date = getattr(task,'date',None)
-        
+        print(ocid)
+        print(view_date)
+
         context["outlet_events"][AssetAlias(ASSET_ALIAS_NAME)].add(Asset(f'update_{ocid}_{date}'),
                                                                    extra={
                                                                        "ocid" : ocid,
