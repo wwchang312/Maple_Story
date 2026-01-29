@@ -81,15 +81,11 @@ with DAG(
 
     def attach_extra(context,result=None):
         ti = context['ti']
-        task = context['task']
-        print(task)
-        
+        task = context['task']        
         ocid = getattr(task,'ocid',None)
         view_date = getattr(task,'date',None)
-        print(ocid)
-        print(view_date)
 
-        context["outlet_events"][AssetAlias(ASSET_ALIAS_NAME)].add(Asset(f'update_{ocid}_{date}'),
+        context["outlet_events"][AssetAlias(ASSET_ALIAS_NAME)].add(Asset(f'update_{view_date}'),
                                                                    extra={
                                                                        "ocid" : ocid,
                                                                        "view_date" : view_date
