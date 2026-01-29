@@ -21,16 +21,14 @@ with DAG(
 ) as dag:
     @task(task_id='inlet_from_asset',
           inlets=[AssetAlias(ASSET_ALIAS_NAME)])
-    def inlet_from_asset(**kwargs):
-        inlet_events = kwargs.get('inlet_events')
-        events=inlet_events[AssetAlias(ASSET_ALIAS_NAME)]
+    def meta_from_asset(*,inlet_events=None, **_):
+        alias = AssetAlias(ASSET_ALIAS_NAME)
+        events = (inlet_events or {}).get(alias, [])
+        # events=inlet_events[AssetAlias(ASSET_ALIAS_NAME)] 현재 값을 가져오지 못함.
         print(events)
-        # return {
-        # 'date' : events[-1].extra['view_date'],
-        # 'ocid' : events[-1].extra['ocid']
-        # }
+        
 
-    asset_event=inlet_from_asset()
+    asset_event=meta_from_asset()
 
 
     # Maple_Popularity_ETL_task = MapleApiOperator(
