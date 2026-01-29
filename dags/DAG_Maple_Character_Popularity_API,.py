@@ -24,20 +24,21 @@ with DAG(
     def inlet_from_asset(**kwargs):
         inlet_events = kwargs.get('inlet_events')
         events=inlet_events[AssetAlias(ASSET_ALIAS_NAME)]
-        return {
-        'date' : events[-1].extra['view_date'],
-        'ocid' : events[-1].extra['ocid']
-        }
+        print(events)
+        # return {
+        # 'date' : events[-1].extra['view_date'],
+        # 'ocid' : events[-1].extra['ocid']
+        # }
 
     asset_event=inlet_from_asset()
 
 
-    Maple_Popularity_ETL_task = MapleApiOperator(
-        task_id='Maple_Popularity_ETL_task',
-        data_nm='character/popularity',
-        date =asset_event['date'],
-        ocid =asset_event['ocid']
-        )
+    # Maple_Popularity_ETL_task = MapleApiOperator(
+    #     task_id='Maple_Popularity_ETL_task',
+    #     data_nm='character/popularity',
+    #     date =asset_event['date'],
+    #     ocid =asset_event['ocid']
+    #     )
 
     
 
