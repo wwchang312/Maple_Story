@@ -61,9 +61,6 @@ with DAG(
         rows=hook.get_records(sql,parameters=params)
         return_value = [r[0] for r in rows]
 
-        ti= kwargs['ti']
-        ti.xcom_push(key='ocid',value=return_value)
-
         return return_value #ocid 리스트 형태로 적재
     
     #view date
@@ -79,22 +76,23 @@ with DAG(
         print(f'{from_date}부터 {to_date}까지 정보를 조회합니다.')
         
         return_value=[(from_date + timedelta(days=i)).strftime("%Y-%m-%d") for i in range((to_date-from_date).days +1)]
-        
-        #Xcom vlaue로 전달하며 meta data로 다음 Dag으로 전달
-        ti = kwargs['ti']
-        ti.xcom_push(key='view_date',value=return_value)
 
         return return_value
 
     def attach_extra(context,result=None):
         ti = context['ti']
-        idx = ti.map_index
-        view_date=ti.xcom_pull(key='view_date',task_ids='view_date_task')
-        ocid=ti.xcom_pull(key='ocid',task_ids='ocid_list_task')
-        print(view_date)
-        print(ocid)
-#       context["outlet_events"][AssetAlias(ASSET_ALIAS_NAME)].add(Asset(f'update_{param['ocid']}'),extra=param)
-
+        task = context['task']
+        print(task)
+        
+        ocid = getattr(task,'ocid',None)
+        view_date = getattr(task,'date',None)
+        
+        context["outlet_events"][AssetAlias(ASSET_ALIAS_NAME)].add(Asset(f'update_{ocid}_{date}'),
+                                                                   extra={
+                                                                       "ocid" : ocid,
+                                                                       "view_date" : view_date
+                                                                   }
+                                                                   )
 
     ocid_list_task=PythonOperator(
         task_id='ocid_list_task',
