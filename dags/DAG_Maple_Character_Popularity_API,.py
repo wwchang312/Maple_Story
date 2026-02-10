@@ -21,12 +21,9 @@ with DAG(
 ) as dag:
     @task(task_id='inlet_from_asset',
           inlets=[AssetAlias(ASSET_ALIAS_NAME)])
-    def meta_from_asset(*,inlet_events=None, **_):
-        alias = AssetAlias(ASSET_ALIAS_NAME)
-        events = (inlet_events or {}).get(alias, [])
-        # events=inlet_events[AssetAlias(ASSET_ALIAS_NAME)] 현재 값을 가져오지 못함.
-        print(events)
-        
+    def meta_from_asset(**kwargs):
+        inlet_events = kwargs.get('inlet_events')
+        print('inlet_events:',inlet_events)
 
     asset_event=meta_from_asset()
 
