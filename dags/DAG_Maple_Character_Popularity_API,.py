@@ -24,7 +24,11 @@ with DAG(
     def meta_from_asset(**kwargs):
         inlet_events = kwargs.get('inlet_events')
         print('inlet_events:',inlet_events)
-
+        events = inlet_events[AssetAlias(ASSET_ALIAS_NAME)]
+        print('events:',events)
+        view_date=events.extra["view_date"]
+        print("view_date",view_date)
+        
     asset_event=meta_from_asset()
 
 
