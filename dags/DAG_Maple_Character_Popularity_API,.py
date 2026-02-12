@@ -21,14 +21,9 @@ with DAG(
 ) as dag:
     @task(task_id='inlet_from_asset',
           inlets=[AssetAlias(ASSET_ALIAS_NAME)])
-    def meta_from_asset(**kwargs):
-        inlet_events = kwargs.get('inlet_events')
-        print('inlet_events:',inlet_events)
+    def meta_from_asset(*, inlet_events):
         events = inlet_events[AssetAlias(ASSET_ALIAS_NAME)]
-        print('events:',events)
-        view_date=events.extra["view_date"]
-        print("view_date",view_date)
-        
+        print(events)
     asset_event=meta_from_asset()
 
 
