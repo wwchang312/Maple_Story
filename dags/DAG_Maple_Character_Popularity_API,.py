@@ -24,7 +24,7 @@ with DAG(
     def meta_from_asset(**kwargs):
         inlet_events = kwargs.get('inlet_events')
         events = inlet_events[Asset('maple_character_info')]
-        print(events['AssetEventResult'])
+        print(events[-1])
 
     asset_event=meta_from_asset()
 
