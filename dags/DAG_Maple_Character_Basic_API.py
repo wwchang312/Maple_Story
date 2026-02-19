@@ -8,7 +8,7 @@ import pendulum
 from datetime import datetime, timedelta, date
 from common.build_clause import build_in_clause
 
-ASSET_ALIAS_NAME = 'maple_asset_alias'
+maple_character_info = Asset('maple_character_info')
 
 with DAG(
     dag_id ='DAG_Maple_Character_Basic_API',
@@ -85,7 +85,7 @@ with DAG(
         ocid = getattr(task,'ocid',None)
         view_date = getattr(task,'date',None)
 
-        context["outlet_events"][AssetAlias(ASSET_ALIAS_NAME)].add(Asset(f'update_{ocid[:5]}_{view_date}'),
+        context["outlet_events"][maple_character_info].add(Asset(f'update_{ocid[:5]}_{view_date}'),
                                                                    extra={
                                                                        "ocid" : ocid,
                                                                        "view_date" : view_date
@@ -105,7 +105,7 @@ with DAG(
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
         data_nm='character/basic',
-        outlets=[AssetAlias(ASSET_ALIAS_NAME)],
+        outlets=[maple_character_info],
         post_execute=attach_extra
         ).expand(
             ocid=ocid_list_task.output,

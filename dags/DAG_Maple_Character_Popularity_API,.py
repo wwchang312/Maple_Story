@@ -6,11 +6,11 @@ from airflow.providers.standard.operators.python import PythonOperator
 from airflow.decorators import task
 from airflow.sdk import Variable, Asset,AssetAlias
 
-ASSET_ALIAS_NAME = 'maple_asset_alias'
+maple_character_info = Asset('maple_character_info')
 
 with DAG(
     dag_id ='DAG_Maple_Character_Popularity_API',
-    schedule= [AssetAlias(ASSET_ALIAS_NAME)],
+    schedule= [maple_character_info],
     start_date=pendulum.datetime(2025,12,1,tz="Asia/Seoul"),
     tags= ['Maple','인기도','Popularity'],
     description="캐릭터 인기도 정보",
@@ -20,10 +20,9 @@ with DAG(
     }
 ) as dag:
     @task(task_id='inlet_from_asset',
-          inlets=[AssetAlias(ASSET_ALIAS_NAME)])
+          inlets=[maple_character_info])
     def meta_from_asset(*, inlet_events):
-        print(inlet_events)
-        events = inlet_events[AssetAlias(ASSET_ALIAS_NAME)]
+        events = inlet_events[maple_character_info]
         print(events)
     asset_event=meta_from_asset()
 
