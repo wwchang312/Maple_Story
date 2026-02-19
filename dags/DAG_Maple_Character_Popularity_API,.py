@@ -24,19 +24,18 @@ with DAG(
     def meta_from_asset(**kwargs):
         inlet_events = kwargs.get('inlet_events')
         events = inlet_events[Asset('maple_character_info')]
-        view_date = events.extra.get('view_date')
-        ocid = events.extra.get('ocid')
+        print(events)
 
     asset_event=meta_from_asset()
 
-
+"""
     Maple_Popularity_ETL_task = MapleApiOperator(
          task_id='Maple_Popularity_ETL_task',
          data_nm='character/popularity',
          date =asset_event['view_date'],
          ocid =asset_event['ocid']
          )
-
+"""
     
 
 
