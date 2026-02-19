@@ -22,6 +22,7 @@ with DAG(
     @task(task_id='inlet_from_asset',
           inlets=[AssetAlias(ASSET_ALIAS_NAME)])
     def meta_from_asset(*, inlet_events):
+        print(inlet_events)
         events = inlet_events[AssetAlias(ASSET_ALIAS_NAME)]
         print(events)
     asset_event=meta_from_asset()
