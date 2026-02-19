@@ -85,12 +85,10 @@ with DAG(
         ocid = getattr(task,'ocid',None)
         view_date = getattr(task,'date',None)
 
-        context["outlet_events"][maple_character_info].add(Asset(f'update_{ocid[:5]}_{view_date}'),
-                                                                   extra={
-                                                                       "ocid" : ocid,
-                                                                       "view_date" : view_date
-                                                                   }
-                                                                   )
+        context["outlet_events"][maple_character_info].extra = {
+            "ocid":ocid,
+            "view_date":view_date
+        }
 
     ocid_list_task=PythonOperator(
         task_id='ocid_list_task',
