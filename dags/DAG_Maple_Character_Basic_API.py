@@ -80,10 +80,9 @@ with DAG(
         return return_value
 
     def attach_extra(context,result=None):
-        ti = context['ti']
-        task = context['task']        
-        ocid = getattr(task,'ocid',None)
-        view_date = getattr(task,'date',None)
+        ti = context['ti']    
+        ocid = ti.xcom_pull(task_ids='ocid_list_task')
+        view_date = ti.xcom_pull(task_ids='view_date_task')
 
         context["outlet_events"][maple_character_info].extra = {
             "ocid":ocid,
@@ -102,17 +101,22 @@ with DAG(
 
     Maple_Character_Basic_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Character_Basic_ETL_Task',
-        data_nm='character/basic',
-        outlets=[maple_character_info],
-        post_execute=attach_extra
+        data_nm='character/basic'
         ).expand(
             ocid=ocid_list_task.output,
             date=view_date_task.output
             )
 
+    meta_data_snd = PythonOperator(
+        task_id ='meta_data_snd',
+        python_callable=attach_extra,
+        outlets=[maple_character_info]
+        )
+    
     ocid_list_task >>  Maple_Character_Basic_ETL_task
     view_date_task >>  Maple_Character_Basic_ETL_task
 
+    Maple_Character_Basic_ETL_task >> meta_data_snd
 
 
 
