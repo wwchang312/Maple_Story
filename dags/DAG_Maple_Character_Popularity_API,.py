@@ -19,23 +19,29 @@ with DAG(
         'pool':'maple_pool' #개발 API의 경우 초당 최대 호출 수가 5건이기 때문에 slot이 5개인 pool을 별도로 지정하여 이용 
     }
 ) as dag:
-    @task(task_id='inlet_from_asset',
-          multiple_outputs=True,
+    @task(task_id='ocid_from_meta',
           inlets=[maple_character_info])
-    def meta_from_asset(**kwargs):
+    def ocid_from_meta(**kwargs):
         inlet_events = kwargs.get('inlet_events')
         events = inlet_events[Asset('maple_character_info')]
         ocid = events[-1].extra['ocid']
-        view_date = events[-1].extra['view_date']
-        return {"ocid":ocid,"date":view_date}
+        return ocid
 
-    input_param = meta_from_asset()
+    @task(task_id='view_date_from_meta',
+          inlets=[maple_character_info])
+    def view_date_from_meta(**kwargs):
+        inlet_events = kwargs.get('inlet_events')
+        events = inlet_events[Asset('maple_character_info')]
+        date = events[-1].extra['view_date']
+        return date
+
+
 
     Maple_Popularity_ETL_task = MapleApiOperator.partial(
          task_id='Maple_Popularity_ETL_task',
          data_nm='character/popularity').expand(
-         ocid =input_param['ocid'],
-         date =input_param['date']
+         ocid =ocid_from_meta(),
+         date =view_date_from_meta()
          )
 
     
