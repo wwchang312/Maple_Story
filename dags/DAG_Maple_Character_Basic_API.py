@@ -79,12 +79,12 @@ with DAG(
 
         return return_value
 
-    def attach_extra(context,result=None):
-        ti = context['ti']    
+    def attach_extra(**kwargs):
+        ti = kwargs['ti']    
         ocid = ti.xcom_pull(task_ids='ocid_list_task')
         view_date = ti.xcom_pull(task_ids='view_date_task')
 
-        context["outlet_events"][maple_character_info].extra = {
+        kwargs["outlet_events"][maple_character_info].extra = {
             "ocid":ocid,
             "view_date":view_date
         }
