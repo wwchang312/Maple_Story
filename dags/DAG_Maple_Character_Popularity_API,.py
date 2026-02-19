@@ -20,6 +20,7 @@ with DAG(
     }
 ) as dag:
     @task(task_id='inlet_from_asset',
+          multiple_outputs=True,
           inlets=[maple_character_info])
     def meta_from_asset(**kwargs):
         inlet_events = kwargs.get('inlet_events')
@@ -28,13 +29,12 @@ with DAG(
         view_date = events[-1].extra['view_date']
         return {"ocid":ocid,"date":view_date}
 
-    input_param=meta_from_asset()
 
     Maple_Popularity_ETL_task = MapleApiOperator.partial(
          task_id='Maple_Popularity_ETL_task',
          data_nm='character/popularity').expand(
-         ocid =input_param['ocid'],
-         date =input_param['view_date']
+         ocid =meta_from_asset().output['ocid'],
+         date =meta_from_asset().output['date']
          )
 
     
