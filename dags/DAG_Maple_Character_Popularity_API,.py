@@ -21,9 +21,10 @@ with DAG(
 ) as dag:
     @task(task_id='inlet_from_asset',
           inlets=[maple_character_info])
-    def meta_from_asset(*, inlet_events):
-        events = inlet_events[maple_character_info],
-        view_date = events.extra.get('view_date'),
+    def meta_from_asset(**kwargs):
+        inlet_events = kwargs.get('inlet_events')
+        events = inlet_events[Asset('maple_character_info')]
+        view_date = events.extra.get('view_date')
         ocid = events.extra.get('ocid')
 
     asset_event=meta_from_asset()
