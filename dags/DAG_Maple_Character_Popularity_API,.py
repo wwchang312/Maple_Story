@@ -26,17 +26,17 @@ with DAG(
         events = inlet_events[Asset('maple_character_info')]
         ocid = events[-1].extra['ocid']
         view_date = events[-1].extra['view_date']
+        return {"ocid":ocid,"date":view_date}
 
-
-    Maple_Popularity_ETL_task = MapleApiOperator.partial(
-         task_id='Maple_Popularity_ETL_task',
-         data_nm='character/popularity').expand(
-         date =meta_from_asset.output['view_date'],
-         ocid =meta_from_asset.output['ocid']
-         )
+    # Maple_Popularity_ETL_task = MapleApiOperator.partial(
+    #      task_id='Maple_Popularity_ETL_task',
+    #      data_nm='character/popularity').expand(
+    #      date =meta_from_asset.output['view_date'],
+    #      ocid =meta_from_asset.output['ocid']
+    #      )
 
     
-    meta_from_asset() >> Maple_Popularity_ETL_task
+    meta_from_asset()
 
 
 
