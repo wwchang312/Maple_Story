@@ -24,9 +24,7 @@ with DAG(
 
     maple_hyper_stat_ETL_task = MapleApiOperator.partial(
         task_id='maple_hyper_stat_ETL_task',
-        data_nm='character/hyper-stat',
-        date = Variable.get("maple_date") #기준일인 date 파라미터는 Airflow Variable을 통해 관리 (타 DAG에도 동일한 값을 적용하기 위함)
-        ).expand(
+        data_nm='character/hyper-stat').expand(
             ocid=ocid,
             date=view_date
             )
