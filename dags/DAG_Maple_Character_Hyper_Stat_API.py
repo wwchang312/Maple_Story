@@ -20,7 +20,7 @@ with DAG(
     }
 ) as dag:
     
-    ocid, view_date = data_from_meta(Asset_inlet = 'maple_character_info', Asset_inlet_nm='Asset(''maple_character_info'')')
+    ocid, view_date = data_from_meta(Asset_inlet = 'maple_character_info')
 
     maple_hyper_stat_ETL_task = MapleApiOperator.partial(
         task_id='maple_hyper_stat_ETL_task',
