@@ -28,7 +28,7 @@ with DAG(
         date = Variable.get("maple_date") #기준일인 date 파라미터는 Airflow Variable을 통해 관리 (타 DAG에도 동일한 값을 적용하기 위함)
         ).expand(
             ocid=ocid,
-            view_date=view_date
+            date=view_date
             )
 
 
