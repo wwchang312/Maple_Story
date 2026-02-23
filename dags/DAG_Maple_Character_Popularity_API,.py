@@ -32,8 +32,8 @@ with DAG(
     def view_date_from_meta(**kwargs):
         inlet_events = kwargs.get('inlet_events')
         events = inlet_events[Asset('maple_character_info')]
-        date = events[-1].extra['view_date']
-        return date
+        view_date = events[-1].extra['view_date']
+        return view_date
 
 
 
