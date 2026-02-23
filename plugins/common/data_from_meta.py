@@ -18,3 +18,4 @@ def data_from_meta(*, group_id = 'date_from_meta'):
             events = inlet_events[Asset('maple_character_info')]
             view_date = events[-1].extra['view_date']
             return view_date
+    return ocid, view_date
