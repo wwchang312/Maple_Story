@@ -1,5 +1,5 @@
 from airflow import DAG
-from plugins.operators.maple_api_operator import MapleApiOperator
+from operators.maple_api_operator import MapleApiOperator
 import pendulum
 from airflow.providers.odbc.hooks.odbc import OdbcHook
 from airflow.providers.standard.operators.python import PythonOperator
