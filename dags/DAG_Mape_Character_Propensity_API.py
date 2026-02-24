@@ -13,7 +13,7 @@ with DAG(
     dag_id ='DAG_Mape_Character_Propensity_API',
     schedule= [maple_character_info],
     start_date=pendulum.datetime(2025,8,1,tz="Asia/Seoul"),
-    tags= ['maple','Character Stat Info', '캐릭터 성향'],
+    tags= ['Maple','Character Stat Info', '캐릭터 성향'],
     description="캐릭터 성향 정보 조회",
     catchup=False,
     default_args={
