@@ -8,7 +8,7 @@ def data_from_meta(*, group_id = 'date_from_meta',Asset_inlet :str):
                 inlets=[Asset_inlet])
         def ocid_from_meta(**kwargs):
             inlet_events = kwargs.get('inlet_events')
-            events = inlet_events[Asset(Asset_inlet)]
+            events = inlet_events[Asset('maple_character_info')]
             ocid = events[-1].extra['ocid']
             return ocid
             
@@ -16,7 +16,7 @@ def data_from_meta(*, group_id = 'date_from_meta',Asset_inlet :str):
             inlets=[Asset_inlet])
         def view_date_from_meta(**kwargs):
             inlet_events = kwargs.get('inlet_events')
-            events = inlet_events[Asset(Asset_inlet)]
+            events = inlet_events[Asset('maple_character_info')]
             view_date = events[-1].extra['view_date']
             return view_date
         
