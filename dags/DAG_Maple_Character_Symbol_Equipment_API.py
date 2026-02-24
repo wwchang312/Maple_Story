@@ -1,4 +1,4 @@
-from plugins.operators.maple_api_operator import MapleApiOperator
+from operators.maple_api_operator import MapleApiOperator
 import pendulum
 from airflow.sdk import Asset, DAG
 from common.data_from_meta import data_from_meta
