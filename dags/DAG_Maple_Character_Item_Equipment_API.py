@@ -9,8 +9,8 @@ with DAG(
     dag_id ='DAG_Maple_Character_Ability_API',
     schedule= [maple_character_info],
     start_date=pendulum.datetime(2026,1,1,tz="Asia/Seoul"),
-    tags= ['Maple','Character Ability Info','Ability'],
-    description="캐릭터 어빌리티 정보",
+    tags= ['Maple','Character Equipment Item','Equipment','장착장비'],
+    description="캐릭터 장착장비 정보",
     catchup=False,
     default_args={
         'pool':'maple_pool' #개발 API의 경우 초당 최대 호출 수가 5건이기 때문에 slot이 5개인 pool을 별도로 지정하여 이용 
