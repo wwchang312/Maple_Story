@@ -21,7 +21,7 @@ with DAG(
     }
 ) as dag:
 
-    ocid, view_date = data_from_meta(Asset_inlet=maple_character_info)
+    ocid, view_date = data_from_meta(Asset_inlet=maple_character_info,Asset_inlet_nm ='maple_character_info')
 
     Maple_Propensity_ETL_task = MapleApiOperator.partial(
         task_id='Maple_Propensity_ETL_task',
