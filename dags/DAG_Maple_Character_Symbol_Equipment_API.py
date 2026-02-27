@@ -6,7 +6,7 @@ from common.data_from_meta import data_from_meta
 maple_character_info = Asset('maple_character_info')
 
 with DAG(
-    dag_id ='DAG_Maple_Character_Symbol_Equipment_API-equipment',
+    dag_id ='DAG_Maple_Character_Symbol_Equipment_API',
     schedule= maple_character_info,
     start_date=pendulum.datetime(2026,1,1,tz="Asia/Seoul"),
     tags= ['maple','Maple Symbol Equipment', '장착 심볼 조회'],
