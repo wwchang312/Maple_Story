@@ -9,7 +9,7 @@ with DAG(
     dag_id ='DAG_Maple_Character_Item_Equipment_API',
     schedule= [maple_character_info],
     start_date=pendulum.datetime(2026,1,1,tz="Asia/Seoul"),
-    tags= ['Maple','Character Equipment Item','Equipment','장착장비'],
+    tags= ['Maple','Equipment'],
     description="캐릭터 장착장비 정보",
     catchup=False,
     default_args={

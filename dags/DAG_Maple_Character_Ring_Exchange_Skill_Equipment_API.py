@@ -9,7 +9,7 @@ with DAG(
     dag_id= 'DAG_Maple_Character_Ring_Exchange_Skill_Equipment_API',
     schedule= [maple_character_info],
     start_date= pendulum.datetime(2026,1,1,tz="Asia/Seoul"),
-    tags= ['Maple','Ring Exchange Skill Equipment Info','Ring Exchgange'],
+    tags= ['Maple','Ring Exchgange'],
     description= "링 익스체인지 스킬 등록 정보 조회",
     catchup= False,
     default_args= {

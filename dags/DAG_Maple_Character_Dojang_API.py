@@ -9,7 +9,7 @@ with DAG(
     dag_id= 'DAG_Maple_Character_Dojang_API',
     schedule= [maple_character_info],
     start_date= pendulum.datetime(2026,1,1,tz="Asia/Seoul"),
-    tags= ['Maple','Character Dojang Info','무릉도장'],
+    tags= ['Maple','무릉도장'],
     description= "캐릭터 무릉 최고 기록 정보 조회",
     catchup= False,
     default_args= {

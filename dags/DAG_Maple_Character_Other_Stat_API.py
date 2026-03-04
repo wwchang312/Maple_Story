@@ -9,7 +9,7 @@ with DAG(
     dag_id= 'DAG_Maple_Character_Other_Stat_API',
     schedule= [maple_character_info],
     start_date= pendulum.datetime(2026,1,1,tz="Asia/Seoul"),
-    tags= ['Maple','Character Other Stat Info','기타 능력치'],
+    tags= ['Maple','Other Stat'],
     description= "기타 능력치 영향 요소 정보 조회",
     catchup= False,
     default_args= {

@@ -15,7 +15,7 @@ with DAG(
     schedule= None,
     start_date=pendulum.datetime(2025,12,1,tz="Asia/Seoul"),
     catchup=False,
-    tags= ['Maple','Character Basic Info','캐릭터 기본 정보'],
+    tags= ['Maple','Basic Info'],
     description="캐릭터 기본 정보 조회",
     default_args={
         'pool':'maple_pool' #개발 API의 경우 초당 최대 호출 수가 5건이기 때문에 slot이 5개인 pool을 별도로 지정하여 이용 

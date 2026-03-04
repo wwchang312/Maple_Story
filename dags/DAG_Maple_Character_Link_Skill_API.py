@@ -9,7 +9,7 @@ with DAG(
     dag_id= 'DAG_Maple_Character_Link_Skill_API',
     schedule= [maple_character_info],
     start_date= pendulum.datetime(2026,1,1,tz="Asia/Seoul"),
-    tags= ['Maple','Character Link Skill Info','Link Skill'],
+    tags= ['Maple','Link Skill'],
     description= "캐릭터 링크 스킬 정보 조회",
     catchup= False,
     default_args= {

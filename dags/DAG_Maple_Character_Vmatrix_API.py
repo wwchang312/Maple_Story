@@ -9,7 +9,7 @@ with DAG(
     dag_id= 'DAG_Maple_Character_Vmatrix_API',
     schedule= [maple_character_info],
     start_date= pendulum.datetime(2026,1,1,tz="Asia/Seoul"),
-    tags= ['Maple','Character Vmatrix Info','Vmatrix'],
+    tags= ['Maple','Vmatrix'],
     description= "캐릭터 V매트릭스 정보 조회",
     catchup= False,
     default_args= {

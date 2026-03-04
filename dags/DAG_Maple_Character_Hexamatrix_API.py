@@ -9,7 +9,7 @@ with DAG(
     dag_id= 'DAG_Maple_Character_Hexamatrix_API',
     schedule= [maple_character_info],
     start_date= pendulum.datetime(2026,1,1,tz="Asia/Seoul"),
-    tags= ['Maple','Character Hexamatrix Info','Hexamatrix'],
+    tags= ['Maple','Hexamatrix'],
     description= "캐릭터 헥사매트릭스 정보 조회",
     catchup= False,
     default_args= {

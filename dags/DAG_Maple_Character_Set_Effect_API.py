@@ -9,7 +9,7 @@ with DAG(
     dag_id ='DAG_Maple_Character_Set_Effect_API',
     schedule= [maple_character_info],
     start_date=pendulum.datetime(2026,1,1,tz="Asia/Seoul"),
-    tags= ['Maple','Character Set Effect','캐릭터 적용 세트 효과'],
+    tags= ['Maple','Set Effect'],
     description="캐릭터가 적용받고 있는 세트 효과 정보 조회",
     catchup=False,
     default_args={

@@ -12,7 +12,7 @@ with DAG(
     dag_id ='DAG_Maple_Character_Popularity_API',
     schedule= [maple_character_info],
     start_date=pendulum.datetime(2025,12,1,tz="Asia/Seoul"),
-    tags= ['Maple','인기도','Popularity'],
+    tags= ['Maple','인기도'],
     description="캐릭터 인기도 정보",
     catchup=False,
     default_args={

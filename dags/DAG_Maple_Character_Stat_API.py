@@ -12,7 +12,7 @@ with DAG(
     dag_id ='DAG_Maple_Character_Stat_API',
     schedule= [maple_character_info],
     start_date=pendulum.datetime(2025,8,1,tz="Asia/Seoul"),
-    tags= ['Maple','Character Stat Info','캐릭터 종합 능력치 정보'],
+    tags= ['Maple','Stat'],
     description="캐릭터 종합 능력치 정보",
     catchup=False,
     default_args={
