@@ -1,8 +1,8 @@
 from airflow.sdk.bases.operator import BaseOperator
-from airflow.hooks.base import BaseHook
 from airflow.sdk import Variable
 import json
 from datetime import datetime
+from airflow.exceptions import AirflowSkipException
 
 class MapleApiOperator(BaseOperator):
 
@@ -57,7 +57,7 @@ class MapleApiOperator(BaseOperator):
         elif date is not None:
             request_url +='?'+'date='+date
 
-        #character_skill_grade는 캐릭터 스킬 등급 API에서만 사용하는 파라미터이기 때문에, 해당 API를 호출할 때에만 파라미터로 받도록 한다.
+        #character_skill_grade는 캐릭터 스킬 API에서만 사용하는 전직 차수 파라미터이기 때문에, 해당 API를 호출할 때에만 파라미터로 받도록 한다.
         if character_skill_grade is not None:
             request_url += '&character_skill_grade=' + character_skill_grade
 
@@ -69,6 +69,11 @@ class MapleApiOperator(BaseOperator):
         
         contents=json.loads(response.text)
         
+        # 메이플 API에서 제공하고 있는 skill 파라미터에서, 일부 직업은 해당사항이 없어 빈값이 들어오는 경우, 가져오지 않기 위한 로직 추가
+        if 'skill' in contents.keys():
+            if contents['skill'] == []:
+                raise AirflowSkipException("직업에 해당하는 스킬 정보가 존재하지 않습니다.")
+
         #ocid 추가
         if ocid is not None:
             contents['ocid'] = ocid  #ocid를 파라미터로 받는 경우 별도로 받는 ocid 컬럼이 없으므로 임의로 추가함.
