@@ -90,7 +90,7 @@ BEGIN
 	 - 캐릭터_HEXA_매트릭스_설정_HEXA_스탯_정보_테이블
 	 - 캐릭터_HEXA_매트릭스_설정_HEXA_스탯_정보_이력_테이블
 	 - 캐릭터_무릉도장_최고_기록_정보_테이블
-	 - 캐릭터_무릉도장_최고_기록_이력_테이블
+	 - 캐릭터_무릉도장_최고_기록_정보_이력_테이블
 	 - 기타_능력치_영향_요소_정보_테이블
 	 - 기타_능력치_영향_요소_정보_이력_테이블
 	 - 링_익스체인지_스킬_등록_장비_테이블
@@ -509,8 +509,310 @@ BEGIN
 	CONSTRAINT	pk_character_android_equipment_hist	PRIMARY KEY (update_date,ocid)
 	);';
 
+-- 캐릭터_장착_펫_정보_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_pet_equipment'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_pet_equipment(
+	[date]							NVARCHAR(32),
+	ocid							NVARCHAR(64),
+	pet_1_name						NVARCHAR(64),
+	pet_1_nickname					NVARCHAR(64),
+	pet_1_icon						NVARCHAR(1024),
+	pet_1_description				NVARCHAR(1024),
+	pet_1_equipment					NVARCHAR(MAX),
+	pet_1_auto_skill				NVARCHAR(MAX),
+	pet_1_pet_type					NVARCHAR(64),
+	pet_1_skill						NVARCHAR(128),
+	pet_1_date_expire				NVARCHAR(64),
+	pet_1_appearance				NVARCHAR(512),
+	pet_1_appearance_icon			NVARCHAR(1024),
+	pet_2_name						NVARCHAR(64),
+	pet_2_nickname					NVARCHAR(64),
+	pet_2_icon						NVARCHAR(1024),
+	pet_2_description				NVARCHAR(1024),
+	pet_2_equipment					NVARCHAR(MAX),
+	pet_2_auto_skill				NVARCHAR(MAX),
+	pet_2_pet_type					NVARCHAR(64),
+	pet_2_skill						NVARCHAR(128),
+	pet_2_date_expire				NVARCHAR(64),
+	pet_2_appearance				NVARCHAR(512),
+	pet_2_appearance_icon			NVARCHAR(1024),
+	pet_3_name						NVARCHAR(64),
+	pet_3_nickname					NVARCHAR(64),
+	pet_3_icon						NVARCHAR(1024),
+	pet_3_description				NVARCHAR(1024),
+	pet_3_equipment					NVARCHAR(MAX),
+	pet_3_auto_skill				NVARCHAR(MAX),
+	pet_3_pet_type					NVARCHAR(64),
+	pet_3_skill						NVARCHAR(128),
+	pet_3_date_expire				NVARCHAR(64),
+	pet_3_appearance				NVARCHAR(512),
+	pet_3_appearance_icon			NVARCHAR(1024),
+	CONSTRAINT pk_character_pet_equipment	PRIMARY KEY(ocid)
+	);';
 
+-- 캐릭터_장착_펫_정보_이력_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_pet_equipment_hist'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_pet_equipment_hist(
+	update_date						DATETIME DEFAULT GETDATE(),
+	[date]							NVARCHAR(32),
+	ocid							NVARCHAR(64),
+	pet_1_name						NVARCHAR(64),
+	pet_1_nickname					NVARCHAR(64),
+	pet_1_icon						NVARCHAR(1024),
+	pet_1_description				NVARCHAR(1024),
+	pet_1_equipment					NVARCHAR(MAX),
+	pet_1_auto_skill				NVARCHAR(MAX),
+	pet_1_pet_type					NVARCHAR(64),
+	pet_1_skill						NVARCHAR(128),
+	pet_1_date_expire				NVARCHAR(64),
+	pet_1_appearance				NVARCHAR(512),
+	pet_1_appearance_icon			NVARCHAR(1024),
+	pet_2_name						NVARCHAR(64),
+	pet_2_nickname					NVARCHAR(64),
+	pet_2_icon						NVARCHAR(1024),
+	pet_2_description				NVARCHAR(1024),
+	pet_2_equipment					NVARCHAR(MAX),
+	pet_2_auto_skill				NVARCHAR(MAX),
+	pet_2_pet_type					NVARCHAR(64),
+	pet_2_skill						NVARCHAR(128),
+	pet_2_date_expire				NVARCHAR(64),
+	pet_2_appearance				NVARCHAR(512),
+	pet_2_appearance_icon			NVARCHAR(1024),
+	pet_3_name						NVARCHAR(64),
+	pet_3_nickname					NVARCHAR(64),
+	pet_3_icon						NVARCHAR(1024),
+	pet_3_description				NVARCHAR(1024),
+	pet_3_equipment					NVARCHAR(MAX),
+	pet_3_auto_skill				NVARCHAR(MAX),
+	pet_3_pet_type					NVARCHAR(64),
+	pet_3_skill						NVARCHAR(128),
+	pet_3_date_expire				NVARCHAR(64),
+	pet_3_appearance				NVARCHAR(512),
+	pet_3_appearance_icon			NVARCHAR(1024),
+	CONSTRAINT	pk_character_pet_equipment_hist	PRIMARY KEY (update_date,ocid)
+	);';
 
+-- 캐릭터_스킬_정보_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_skill'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_skill(
+	[date]							NVARCHAR(32),
+	ocid							NVARCHAR(64),
+	character_class					NVARCHAR(64),
+	character_skill_grade			NVRACHAR(32),
+	character_skill					NVARCHAR(MAX),
+	CONSTRAINT pk_character_skill	PRIMARY KEY(ocid)
+	);';
+
+-- 캐릭터_스킬_정보_이력_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_skill_hist'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_skill_hist(
+	update_date						DATETIME DEFAULT GETDATE(),
+	[date]							NVARCHAR(32),
+	ocid							NVARCHAR(64),
+	character_class					NVARCHAR(64),
+	character_skill_grade			NVRACHAR(32),
+	character_skill					NVARCHAR(MAX),
+	CONSTRAINT	pk_character_skill_hist	PRIMARY KEY (update_date,ocid)
+	);';
+
+-- 캐릭터_장착_링크_스킬_정보_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_link_skill'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_link_skill(
+	[date]								NVARCHAR(32),
+	ocid								NVARCHAR(64),
+	character_class						NVARCHAR(64),
+	character_link_skill				NVARCHAR(MAX),  --링크 스킬 정보
+	character_link_skill_preset_1		NVARCHAR(MAX),  --링크 스킬 1번 프리셋
+	character_link_skill_preset_2		NVARCHAR(MAX),  --링크 스킬 2번 프리셋
+	character_link_skill_preset_3		NVARCHAR(MAX),  --링크 스킬 3번 프리셋
+	character_owned_link_skill			NVARCHAR(MAX),
+	character_owned_link_skill_preset_1	NVARCHAR(MAX),
+	character_owned_link_skill_preset_2	NVARCHAR(MAX),
+	character_owned_link_skill_preset_3	NVARCHAR(MAX),
+	CONSTRAINT pk_character_link_skill	PRIMARY KEY(ocid)
+	);';
+
+-- 캐릭터_장착_링크_스킬_정보_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_link_skill_hist'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_link_skill_hist(
+	update_date							DATETIME DEFAULT GETDATE(),
+	[date]								NVARCHAR(32),
+	ocid								NVARCHAR(64),
+	character_class						NVARCHAR(64),
+	character_link_skill				NVARCHAR(MAX),  --링크 스킬 정보
+	character_link_skill_preset_1		NVARCHAR(MAX),  --링크 스킬 1번 프리셋
+	character_link_skill_preset_2		NVARCHAR(MAX),  --링크 스킬 2번 프리셋
+	character_link_skill_preset_3		NVARCHAR(MAX),  --링크 스킬 3번 프리셋
+	character_owned_link_skill			NVARCHAR(MAX),
+	character_owned_link_skill_preset_1	NVARCHAR(MAX),
+	character_owned_link_skill_preset_2	NVARCHAR(MAX),
+	character_owned_link_skill_preset_3	NVARCHAR(MAX),
+	CONSTRAINT	pk_character_link_skill_hist	PRIMARY KEY (update_date,ocid)
+	);';
+
+-- 캐릭터_V매트릭스_정보_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_vmatrix'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_vmatrix(
+	[date]											NVARCHAR(32),
+	ocid											NVARCHAR(64),
+	character_class									NVARCHAR(64),
+	character_v_core_equipment						NVARCHAR(MAX),
+	character_v_matrix_remain_slot_upgrade_point	INT,
+	CONSTRAINT pk_character_vmatrix	PRIMARY KEY(ocid)
+	);';
+
+-- 캐릭터_V매트릭스_정보_이력_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_vmatrix_hist'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_vmatrix_hist(
+	update_date										DATETIME DEFAULT GETDATE(),
+	[date]											NVARCHAR(32),
+	ocid											NVARCHAR(64),
+	character_class									NVARCHAR(64),
+	character_v_core_equipment						NVARCHAR(MAX),
+	character_v_matrix_remain_slot_upgrade_point	INT,
+	CONSTRAINT pk_character_vmatrix_hist	PRIMARY KEY(update_date,ocid)
+	);';
+
+-- 캐릭터_HEXA_코어_정보_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_hexamatrix'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_hexamatrix(
+	[date]								NVARCHAR(32),
+	ocid								NVARCHAR(64),
+	character_hexa_core_equipment		NVARCHAR(MAX),		
+	CONSTRAINT pk_character_hexamatrix	PRIMARY KEY(ocid)
+	);';
+
+-- 캐릭터_HEXA_코어_정보_이력_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_hexamatrix_hist'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_hexamatrix_hist(
+	update_date							DATETIME DEFAULT GETDATE(),
+	[date]								NVARCHAR(32),
+	ocid								NVARCHAR(64),
+	character_hexa_core_equipment		NVARCHAR(MAX),		
+	CONSTRAINT pk_character_hexamatrix_hist	PRIMARY KEY(update_date,ocid)
+	);';
+
+--	캐릭터_HEXA_매트릭스_설정_HEXA_스탯_정보_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_hexamatrix_stat'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_hexamatrix_stat(
+	[date]						NVARCHAR(32),
+	ocid						NVARCHAR(64),
+	character_class				NVARCHAR(64),
+	character_hexa_stat_core	NVARCHAR(MAX),
+	character_hexa_stat_core_2	NVARCHAR(MAX),
+	character_hexa_stat_core_3	NVARCHAR(MAX),
+	preset_hexa_stat_core		NVARCHAR(MAX),
+	preset_hexa_stat_core_2		NVARCHAR(MAX),
+	preset_hexa_stat_core_3		NVARCHAR(MAX),
+	CONSTRAINT pk_character_hexamatrix_stat	PRIMARY KEY(ocid)
+	);';
+
+-- 캐릭터_HEXA_매트릭스_설정_HEXA_스탯_정보_이력_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_hexamatrix_stat_hist'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_hexamatrix_stat_hist(
+	update_date					DATETIME DEFAULT GETDATE(),
+	[date]						NVARCHAR(32),
+	ocid						NVARCHAR(64),
+	character_class				NVARCHAR(64),
+	character_hexa_stat_core	NVARCHAR(MAX),
+	character_hexa_stat_core_2	NVARCHAR(MAX),
+	character_hexa_stat_core_3	NVARCHAR(MAX),
+	preset_hexa_stat_core		NVARCHAR(MAX),
+	preset_hexa_stat_core_2		NVARCHAR(MAX),
+	preset_hexa_stat_core_3		NVARCHAR(MAX),
+	CONSTRAINT pk_character_hexamatrix_stat_hist	PRIMARY KEY(update_date,ocid)
+	);';
+
+--	캐릭터_무릉도장_최고_기록_정보_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_dojang'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_dojang(
+	[date]						NVARCHAR(32),
+	ocid						NVARCHAR(64),
+	character_class				NVARCHAR(64),
+	world_name					NVARCHAR(32),
+	dojang_best_floor			INT,
+	date_dojang_record			NVARCHAR(32),
+	dojang_best_time			INT,
+	CONSTRAINT pk_character_dojang	PRIMARY KEY(ocid)
+	);';
+
+-- 캐릭터_무릉도장_최고_기록_정보_이력_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_dojang_hist'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_dojang_hist(
+	update_date					DATETIME DEFAULT GETDATE(),
+	[date]						NVARCHAR(32),
+	ocid						NVARCHAR(64),
+	character_class				NVARCHAR(64),
+	world_name					NVARCHAR(32),
+	dojang_best_floor			INT,
+	date_dojang_record			NVARCHAR(32),
+	dojang_best_time			INT,
+	CONSTRAINT pk_character_dojang_hist	PRIMARY KEY(update_date,ocid)
+	);';
+
+--	기타_능력치_영향_요소_정보_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_other_stat'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_other_stat(
+	[date]				NVARCHAR(32),
+	ocid				NVARCHAR(64),
+	other_stat			NVARCHAR(MAX),
+	CONSTRAINT pk_character_other_stat	PRIMARY KEY(ocid)
+	);';
+
+-- 기타_능력치_영향_요소_정보_이력_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_other_stat_hist'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_other_stat_hist(
+	update_date			DATETIME DEFAULT GETDATE(),
+	[date]				NVARCHAR(32),
+	ocid				NVARCHAR(64),
+	other_stat			NVARCHAR(MAX),
+	CONSTRAINT pk_character_other_stat_hist PRIMARY KEY (update_date,ocid)
+	);';
+
+--	링_익스체인지_스킬_등록_장비_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_ring_exchange_skill_equipment'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_ring_exchange_skill_equipment(
+	[date]								NVARCHAR(32),
+	ocid								NVARCHAR(64),
+	character_class						NVARCHAR(64),
+	special_ring_exchange_name			NVARCHAR(64),
+	special_ring_exchange_level			INT,
+	special_ring_exchange_icon			NVARCHAR(1024),
+	special_ring_exchange_description	NVARCHAR(1024),
+	CONSTRAINT pk_character_ring_exchange_skill_equipment	PRIMARY KEY(ocid)
+	);';
+
+-- 링_익스체인지_스킬_등록_장비_이력_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_ring_exchange_skill_equipment_hist'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_ring_exchange_skill_equipment_hist(
+	update_date					DATETIME DEFAULT GETDATE(),
+	[date]								NVARCHAR(32),
+	ocid								NVARCHAR(64),
+	character_class						NVARCHAR(64),
+	special_ring_exchange_name			NVARCHAR(64),
+	special_ring_exchange_level			INT,
+	special_ring_exchange_icon			NVARCHAR(1024),
+	special_ring_exchange_description	NVARCHAR(1024),
+	CONSTRAINT pk_character_ring_exchange_skill_equipment_hist PRIMARY KEY (update_date,ocid)
+	);';
 
 
 	BEGIN TRY
