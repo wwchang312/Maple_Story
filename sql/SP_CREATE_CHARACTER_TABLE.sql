@@ -601,7 +601,7 @@ BEGIN
 	[date]							NVARCHAR(32),
 	ocid							NVARCHAR(64),
 	character_class					NVARCHAR(64),
-	character_skill_grade			NVRACHAR(32),
+	character_skill_grade			NVARCHAR(32),
 	character_skill					NVARCHAR(MAX),
 	CONSTRAINT pk_character_skill	PRIMARY KEY(ocid)
 	);';
@@ -614,7 +614,7 @@ BEGIN
 	[date]							NVARCHAR(32),
 	ocid							NVARCHAR(64),
 	character_class					NVARCHAR(64),
-	character_skill_grade			NVRACHAR(32),
+	character_skill_grade			NVARCHAR(32),
 	character_skill					NVARCHAR(MAX),
 	CONSTRAINT	pk_character_skill_hist	PRIMARY KEY (update_date,ocid)
 	);';
