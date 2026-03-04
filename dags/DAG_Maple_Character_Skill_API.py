@@ -24,5 +24,5 @@ with DAG(
         data_nm='character/skill').expand(
             ocid=ocid,
             date= view_date,
-            character_skill_grade= ['0','1','1.5','2','2.5','3','4','hyperpassive','hyperactive','5','6']
+            character_skill_grade= ['0','1','1.5','2','2.5','3','4','hyperpassive','hyperactive','5','6']  #스킬 차수에 따른 정보 조회를 위한 파라미터 추가, 스킬 차수는 고정되있으므로 리스트 형태로 추가함.
             )
