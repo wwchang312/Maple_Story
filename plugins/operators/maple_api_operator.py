@@ -60,7 +60,7 @@ class MapleApiOperator(BaseOperator):
         #character_skill_grade는 캐릭터 스킬 API에서만 사용하는 전직 차수 파라미터이기 때문에, 해당 API를 호출할 때에만 파라미터로 받도록 한다.
         if character_skill_grade is not None:
             request_url += '&character_skill_grade=' + character_skill_grade
-
+        print(request_url)
         response=requests.get(request_url,headers=headers)
 
         
