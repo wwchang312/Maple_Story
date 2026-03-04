@@ -25,7 +25,7 @@ class MapleApiOperator(BaseOperator):
     def execute(self, context):
         from airflow.providers.odbc.hooks.odbc import OdbcHook
 
-        con = self._call_api(self.base_url,self.data_nm,self.headers,self.date,self.ocid)
+        con = self._call_api(self.base_url,self.data_nm,self.headers,self.date,self.ocid,self.character_skill_grade)
 
         data=self.json_dumping(con) 
 
@@ -87,7 +87,7 @@ class MapleApiOperator(BaseOperator):
             if contents['date'] is None:
                 contents['date'] = datetime.now().strftime("%Y-%m-%dT00:00+09:00") 
     
-        return contents, request_url
+        return contents
 
     ## json 문자열 dumping
     def json_dumping(self,contents:dict):
@@ -106,4 +106,3 @@ class MapleApiOperator(BaseOperator):
         json_str=json_str.replace("'","''") #일부 값이 '가 들어있어 dumping 과정에서 문자열이 손상되는 경우가 있어 이를 대비하기 위해 추가
         return json_str
 
-    
