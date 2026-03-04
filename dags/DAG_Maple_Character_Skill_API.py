@@ -24,5 +24,5 @@ with DAG(
         data_nm='character/skill').expand(
             ocid=ocid,
             date= view_date,
-            character_skill_grade= [0,1,1.5,2,2.5,3,4,'hyperpassive','hyperactive',5,6]
+            character_skill_grade= ['0','1','1.5','2','2.5','3','4','hyperpassive','hyperactive','5','6']
             )
