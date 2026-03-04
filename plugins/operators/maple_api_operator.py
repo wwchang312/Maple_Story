@@ -6,9 +6,9 @@ from datetime import datetime
 
 class MapleApiOperator(BaseOperator):
 
-    template_fields= ('data_nm','ocid','date')
+    template_fields= ('data_nm','ocid','date','character_skill_grade')
 
-    def __init__(self,data_nm,date:str | None=None,ocid: str | None = None,**kwargs):
+    def __init__(self,data_nm,date:str | None=None,ocid: str | None = None,character_skill_grade: str | None = None,**kwargs):
         '''
         data_nm : 호출하고자 하는 데이터의 API 종류  "/"로 구분
         예시: 캐릭터 목록 조회 api 호출시,
@@ -20,6 +20,7 @@ class MapleApiOperator(BaseOperator):
         self.headers =  {"x-nxopen-api-key" : Variable.get("x-nxopen-api-key")}
         self.ocid = ocid
         self.date = date
+        self.character_skill_grade = character_skill_grade
 
     def execute(self, context):
         from airflow.providers.odbc.hooks.odbc import OdbcHook
@@ -39,7 +40,7 @@ class MapleApiOperator(BaseOperator):
         hook.run(sql,parameters=params)
 
 
-    def _call_api(self,base_url,data_nm,headers,date:str | None=None, ocid:str | None = None):
+    def _call_api(self,base_url,data_nm,headers,date:str | None=None, ocid:str | None = None, character_skill_grade:str | None = None):
         import requests
         
 
@@ -55,6 +56,10 @@ class MapleApiOperator(BaseOperator):
             request_url +='?ocid='+ocid
         elif date is not None:
             request_url +='?'+'date='+date
+
+        #character_skill_grade는 캐릭터 스킬 등급 API에서만 사용하는 파라미터이기 때문에, 해당 API를 호출할 때에만 파라미터로 받도록 한다.
+        if character_skill_grade is not None:
+            request_url += '&character_skill_grade=' + character_skill_grade
 
         response=requests.get(request_url,headers=headers)
 
