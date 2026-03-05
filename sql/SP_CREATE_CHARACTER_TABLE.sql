@@ -603,7 +603,7 @@ BEGIN
 	character_class					NVARCHAR(64),
 	character_skill_grade			NVARCHAR(32),
 	character_skill					NVARCHAR(MAX),
-	CONSTRAINT pk_character_skill	PRIMARY KEY(ocid)
+	CONSTRAINT pk_character_skill	PRIMARY KEY(ocid,character_skill_grade)
 	);';
 
 -- 캐릭터_스킬_정보_이력_테이블
@@ -616,7 +616,7 @@ BEGIN
 	character_class					NVARCHAR(64),
 	character_skill_grade			NVARCHAR(32),
 	character_skill					NVARCHAR(MAX),
-	CONSTRAINT	pk_character_skill_hist	PRIMARY KEY (update_date,ocid)
+	CONSTRAINT	pk_character_skill_hist	PRIMARY KEY (update_date,ocid,character_skill_grade)
 	);';
 
 -- 캐릭터_장착_링크_스킬_정보_테이블
