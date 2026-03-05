@@ -51,7 +51,7 @@ BEGIN
 	-- ON 조건 생성
 	DECLARE @on NVARCHAR(MAX);
 	 
-	SELECT @on = CONCAT('t.',COLUMN_NAME,' = s.',COLUMN_NAME) 
+	SELECT @on = STRING_AGG(CONCAT('t.',COLUMN_NAME,' = s.',COLUMN_NAME),' AND ') 
 	FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE kcu 
 	WHERE kcu.TABLE_NAME =@table_nm and kcu.TABLE_SCHEMA =@schema_nm;
 
@@ -100,17 +100,13 @@ BEGIN
 		SET @sql = N'MERGE INTO '+@schema_nm+'.'+@table_nm + N' t USING  (' + @sur +' ) s ON ' + @on + 
 					 N' WHEN MATCHED THEN UPDATE SET ' + @up_col+
 					 N' WHEN NOT MATCHED THEN INSERT (' + @tar_col + N' ) VALUES (' +@sur_col+');' ;
---		SET @sql += N'DELETE'+ @schema_nm +'.'+@table_nm + ';';
-		
---		SET @sql += N'INSERT INTO ' +@schema_nm +'.'+@table_nm +'('+@col+') '+ @sur +';';
+
 
 	
 	END
 	ELSE
 	BEGIN
---		SET @sql = N'DELETE '+ @schema_nm +'.'+@table_nm + ';';
-		
---		SET @sql += N'INSERT INTO ' +@schema_nm +'.'+@table_nm +'('+@col+') '+ @sur +';';
+
 		
 		SET @sql = N'MERGE INTO '+@schema_nm+'.'+@table_nm + N' t USING  (' + @sur +' ) s ON ' + @on + 
 					 N' WHEN MATCHED THEN UPDATE SET ' + @up_col+
