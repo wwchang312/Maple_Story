@@ -28,8 +28,8 @@ class MapleApiOperator(BaseOperator):
         con = self._call_api(self.base_url,self.data_nm,self.headers,self.date,self.ocid,self.character_skill_grade)
 
         # 메이플 API에서 제공하고 있는 skill 파라미터에서, 일부 직업은 해당사항이 없어 빈값이 들어오는 경우, 가져오지 않기 위한 로직 추가
-        if 'character_skill_grade' in con.keys():
-            if con['character_skill_grade'] == []:
+        if 'character_skill' in con.keys():
+            if con['character_skill'] == []:
                 raise AirflowSkipException("직업에 해당하는 스킬 정보가 존재하지 않습니다.")
 
         data=self.json_dumping(con) 
