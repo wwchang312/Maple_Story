@@ -1523,7 +1523,7 @@ BEGIN
 		CROSS APPLY OPENJSON(cos.other_stat,''$[0].stat_info'')
 		WITH (
 			stat_name		NVARCHAR(64),
-			stat_value		INT
+			stat_value		NVARCHAR(32)
 			) aoj ;'
 		);
 
