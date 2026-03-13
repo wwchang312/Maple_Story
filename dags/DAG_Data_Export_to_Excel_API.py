@@ -1,4 +1,4 @@
-from operators.export_data_to_excel_operator import export_data_to_excel_operator
+from operators.export_data_to_csv_operator import export_data_to_csv_operator
 import pendulum
 from airflow.sdk import DAG
 
@@ -11,7 +11,7 @@ with DAG(
     catchup= False
 )as dag:
 
-    exoprt_data_to_excel_task = export_data_to_excel_operator(
+    exoprt_data_to_excel_task = export_data_to_csv_operator(
         task_id ='exoprt_data_to_excel_task',
         schema_nm='pub'
     )

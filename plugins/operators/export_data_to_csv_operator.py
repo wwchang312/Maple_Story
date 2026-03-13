@@ -2,7 +2,7 @@ from airflow.sdk.bases.operator import BaseOperator
 from airflow.providers.odbc.hooks.odbc import OdbcHook
 
 
-class export_data_to_excel_operator(BaseOperator):
+class export_data_to_csv_operator(BaseOperator):
 
     template_fields= ('schema_nm')
 
@@ -25,5 +25,6 @@ class export_data_to_excel_operator(BaseOperator):
         for row in rows:
             lis.append(row[0])
 
-        print(lis)
+        print(f'다음의 뷰를 Excel로 반출합니다. {lis}')
 
+        
