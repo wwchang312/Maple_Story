@@ -4,7 +4,7 @@ from airflow.providers.odbc.hooks.odbc import OdbcHook
 
 
 
-class MapleApiOperator(BaseOperator):
+class export_date_to_excel_operator(BaseOperator):
 
     template_fields= ('schema_nm')
 
