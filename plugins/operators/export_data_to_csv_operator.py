@@ -45,11 +45,12 @@ class export_data_to_csv_operator(BaseOperator):
                 writer = csv.writer(f)
                 writer.writerow(columns)
                 rows = cursor.fetchall()
+                print(rows)
                 if not rows:
                     break
                 writer.writerows(rows)
             cursor.close()
             conn.close()
-        print(rows)
+        
 
         
