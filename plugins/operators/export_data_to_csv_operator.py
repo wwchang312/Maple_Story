@@ -50,6 +50,6 @@ class export_data_to_csv_operator(BaseOperator):
                 writer.writerows(rows)
             cursor.close()
             conn.close()
-
+        print(rows)
 
         
