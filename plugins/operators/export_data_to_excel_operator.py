@@ -18,4 +18,12 @@ class export_data_to_excel_operator(BaseOperator):
         sql = "SELECT v.name FROM sys.schemas s INNER JOIN sys.views v ON s.schema_id = v.schema_id WHERE s.name= ? "
         schema_nm = self.schema_nm
         
-        print(hook.run(sql, parameters=(schema_nm)))
+        rows=hook.get_records(sql,parameters=(schema_nm))
+        
+        lis=[]
+        
+        for row in rows:
+            lis.append(row[0])
+
+        print(lis)
+
