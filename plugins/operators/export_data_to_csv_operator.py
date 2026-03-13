@@ -1,6 +1,6 @@
 from airflow.sdk.bases.operator import BaseOperator
 from airflow.providers.odbc.hooks.odbc import OdbcHook
-
+import pandas as pd
 
 class export_data_to_csv_operator(BaseOperator):
 
@@ -18,6 +18,8 @@ class export_data_to_csv_operator(BaseOperator):
         sql = "SELECT v.name FROM sys.schemas s INNER JOIN sys.views v ON s.schema_id = v.schema_id WHERE s.name= ? "
         schema_nm = self.schema_nm
         
+        #반출을 위한 VIEW 목록 조회
+
         rows=hook.get_records(sql,parameters=(schema_nm))
         
         lis=[]
@@ -25,6 +27,15 @@ class export_data_to_csv_operator(BaseOperator):
         for row in rows:
             lis.append(row[0])
 
-        print(f'다음의 뷰를 Excel로 반출합니다. {lis}')
+        print(f'다음의 뷰를 csv로 반출합니다. {lis}')
+
+        # 뷰별 csv 반출
+
+        for i in lis:
+            sql = f"SELECT * FROM {self.schema_nm}.{i}"
+            df = hook.get_pandas_df(sql)
+            df.to_csv(f'/opt/airflow/data/{self.schema_nm}_{i}.csv',index=False,encoding='utf-8')
+
+
 
         
