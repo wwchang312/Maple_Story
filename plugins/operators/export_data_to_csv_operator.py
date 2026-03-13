@@ -44,7 +44,7 @@ class export_data_to_csv_operator(BaseOperator):
             
             columns = [columns[0] for columns in cursor.description]
 
-            with open(f'/opt/airflow/output/{self.schema_nm}_{i}.csv','w',newline='',encoding='utf-8') as f:
+            with open(f'/opt/airflow/output/{i}.csv','w',newline='',encoding='utf-8') as f:
                 writer = csv.writer(f)
                 writer.writerow(columns)
                 rows = cursor.fetchall()
