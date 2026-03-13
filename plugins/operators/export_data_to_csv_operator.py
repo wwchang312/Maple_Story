@@ -1,6 +1,6 @@
 from airflow.sdk.bases.operator import BaseOperator
 from airflow.providers.odbc.hooks.odbc import OdbcHook
-import pandas as pd
+import csv
 
 class export_data_to_csv_operator(BaseOperator):
 
@@ -31,11 +31,25 @@ class export_data_to_csv_operator(BaseOperator):
 
         # 뷰별 csv 반출
 
-        for i in lis:
-            sql = f"SELECT * FROM {self.schema_nm}.{i}"
-            df = hook.get_pandas_df(sql)
-            df.to_csv(f'/opt/airflow/data/{self.schema_nm}_{i}.csv',index=False,encoding='utf-8')
 
+
+        for i in lis:
+            sql = f"SELECT * FROM {self.schema_nm}.{i} ORDER BY DATE"
+            conn = hook.get_conn()
+            cursor = conn.cursor()
+            cursor.execute(sql)
+            
+            columns = [columns[0] for columns in cursor.description]
+
+            with open(f'opt/airflow/data/{self.schema_nm}_{i}.csv','w',newline='',encoding='utf-8') as f:
+                writer = csv.writer(f)
+                writer.writerow(columns)
+                rows = cursor.fetchall()
+                if not rows:
+                    break
+                writer.writerows(rows)
+            cursor.close()
+            conn.close()
 
 
         
