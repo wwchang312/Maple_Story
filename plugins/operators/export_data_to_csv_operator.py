@@ -34,10 +34,7 @@ class export_data_to_csv_operator(BaseOperator):
 
 
         for i in lis:
-            if i == 'vw_user_achievement':   #achievement 뷰는 date 컬럼이 없기 때문에, date 컬럼이 있는 나머지 뷰와는 구분한다.
-                sql = f"SELECT * FROM {self.schema_nm}.{i}"
-            else:    
-                sql = f"SELECT * FROM {self.schema_nm}.{i} ORDER BY DATE"
+            sql = f"SELECT * FROM {self.schema_nm}.{i}"
             conn = hook.get_conn()
             cursor = conn.cursor()
             cursor.execute(sql)
