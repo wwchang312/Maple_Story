@@ -2,9 +2,7 @@ from airflow.sdk.bases.operator import BaseOperator
 from airflow.providers.odbc.hooks.odbc import OdbcHook
 
 
-
-
-class export_date_to_excel_operator(BaseOperator):
+class export_data_to_excel_operator(BaseOperator):
 
     template_fields= ('schema_nm')
 
