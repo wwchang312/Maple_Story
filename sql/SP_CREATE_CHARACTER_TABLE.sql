@@ -95,6 +95,8 @@ BEGIN
 	 - 기타_능력치_영향_요소_정보_이력_테이블
 	 - 링_익스체인지_스킬_등록_장비_테이블
 	 - 링_익스체인지_스킬_등록_장비_이력_테이블
+	 - 예비_특수_반지_장착_정보_테이블
+	 - 예비_특수_반지_장착_정보_이력_테이블
 	 */
 
 ---------------------------------------------------------------------------------------
@@ -860,6 +862,35 @@ BEGIN
 	special_ring_exchange_icon			NVARCHAR(1024),
 	special_ring_exchange_description	NVARCHAR(1024),
 	CONSTRAINT pk_character_ring_exchange_skill_equipment_hist PRIMARY KEY (update_date,ocid)
+	);';
+
+--	예비_특수_반지_장착_정보_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_ring_reserve_skill_equipment'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_ring_reserve_skill_equipment(
+	[date]								NVARCHAR(32),
+	ocid								NVARCHAR(64),
+	character_class						NVARCHAR(64),
+	special_ring_reserve_name			NVARCHAR(64),
+	special_ring_reserve_level			INT,
+	special_ring_reserve_icon			NVARCHAR(1024),
+	special_ring_reserve_description	NVARCHAR(1024),
+	CONSTRAINT pk_character_ring_reserve_skill_equipment	PRIMARY KEY(ocid)
+	);';
+
+-- 예비_특수_반지_장착_정보_이력_테이블
+	SET @sql +=N'
+	IF OBJECT_ID('''+ @schema_nm +N'.character_ring_reserve_skill_equipment_hist'',''U'') IS NULL
+	CREATE TABLE '+ @schema_nm +N'.character_ring_reserve_skill_equipment_hist(
+	update_date					DATETIME DEFAULT GETDATE(),
+	[date]								NVARCHAR(32),
+	ocid								NVARCHAR(64),
+	character_class						NVARCHAR(64),
+	special_ring_reserve_name			NVARCHAR(64),
+	special_ring_reserve_level			INT,
+	special_ring_reserve_icon			NVARCHAR(1024),
+	special_ring_reserve_description	NVARCHAR(1024),
+	CONSTRAINT pk_character_ring_reserve_skill_equipment_hist PRIMARY KEY (update_date,ocid)
 	);';
 
 

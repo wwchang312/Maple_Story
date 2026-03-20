@@ -1,7 +1,9 @@
 from operators.maple_api_operator import MapleApiOperator
 from airflow.sdk import Asset,DAG
 from common.data_from_meta import data_from_meta
+from airflow.providers.standard.operators.branch import BaseBranchOperator
 import pendulum
+
 
 maple_character_info = Asset('maple_character_info')
 
@@ -19,9 +21,28 @@ with DAG(
 
     ocid, view_date = data_from_meta(Asset_inlet=maple_character_info,Asset_inlet_nm ='maple_character_info')
 
+    class CheckBranchOperator(BaseBranchOperator):   #특수 스킬 반지 개편으로 인한, 신규 조회 API 추가 반영
+        def choose_branch(self, context):
+            if view_date < '2026-03-19':
+                return 'maple_character_ring_exchange_skill_equipment_ETL_task'
+            else:
+                return 'maple_character_ring_reserve_skill_equipment_ETL_task'
+
+    
     maple_character_ring_exchange_skill_equipment_ETL_task = MapleApiOperator.partial(
         task_id='maple_character_ring_exchange_skill_equipment_ETL_task',
         data_nm='character/ring-exchange-skill-equipment').expand(
             ocid=ocid,
             date= view_date
             )
+
+    maple_character_ring_reserve_skill_equipment_ETL_task = MapleApiOperator.partial(
+        task_id='maple_character_ring_reserve_skill_equipment_ETL_task', 
+        data_nm='character/ring-reserve-skill-equipment').expand(
+            ocid=ocid,
+            date= view_date
+            )
+    
+    check_branch_task = CheckBranchOperator(task_id='check_branch_task')
+
+    check_branch_task >> [maple_character_ring_exchange_skill_equipment_ETL_task, maple_character_ring_reserve_skill_equipment_ETL_task]
