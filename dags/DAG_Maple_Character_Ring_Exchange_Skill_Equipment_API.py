@@ -23,10 +23,11 @@ with DAG(
 
     class CheckBranchOperator(BaseBranchOperator):   #특수 스킬 반지 개편으로 인한, 신규 조회 API 추가 반영
         def choose_branch(self, context):
-            if view_date <= '2026-03-18':
-                return 'maple_character_ring_exchange_skill_equipment_ETL_task'
-            else:
-                return 'maple_character_ring_reserve_skill_equipment_ETL_task'
+            for v_date in view_date:
+                if v_date < '2026-03-19':
+                    return 'maple_character_ring_exchange_skill_equipment_ETL_task'
+                else:
+                    return 'maple_character_ring_reserve_skill_equipment_ETL_task'
 
     
     maple_character_ring_exchange_skill_equipment_ETL_task = MapleApiOperator.partial(
