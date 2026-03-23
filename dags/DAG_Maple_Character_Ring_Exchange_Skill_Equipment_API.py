@@ -28,19 +28,30 @@ with DAG(
             'reserved_date' : [v_date for v_date in view_date if v_date >= '2026-03-19']
         }
 
+    @task
+    def exchange_date(split_date):
+        return split_date['exchange_date']
+
+    @task
+    def reserved_date(split_date):
+        return split_date['reserved_date']
+
     split_date = sep_date(view_date)
+    exchange_date = exchange_date(split_date)
+    reserved_date = reserved_date(split_date)
+
     
     maple_character_ring_exchange_skill_equipment_ETL_task = MapleApiOperator.partial(
         task_id='maple_character_ring_exchange_skill_equipment_ETL_task',
         data_nm='character/ring-exchange-skill-equipment').expand(
             ocid=ocid,
-            date=split_date['exchange_date']
+            date=exchange_date
             )
 
     maple_character_ring_reserve_skill_equipment_ETL_task = MapleApiOperator.partial(
         task_id='maple_character_ring_reserve_skill_equipment_ETL_task', 
         data_nm='character/ring-reserve-skill-equipment').expand(
             ocid=ocid,
-            date= split_date['reserved_date']
+            date=reserved_date
             )
     
