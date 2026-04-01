@@ -29,10 +29,9 @@ class export_data_to_csv_operator(BaseOperator):
 
         print(f'다음의 뷰를 csv로 반출합니다. {lis}')
 
+
         # 뷰별 csv 반출
-
-
-
+        no_row=[]
         for i in lis:
             sql = f"SELECT * FROM {self.schema_nm}.{i}"
             conn = hook.get_conn()
@@ -46,10 +45,12 @@ class export_data_to_csv_operator(BaseOperator):
                 writer.writerow(columns)
                 rows = cursor.fetchall()
                 if not rows:
+                    no_row.append(i) #반출 데이터가 없는 뷰 리스트
                     break
                 writer.writerows(rows)
             cursor.close()
             conn.close()
+            print(no_row)
         
 
         
