@@ -46,11 +46,11 @@ class export_data_to_csv_operator(BaseOperator):
                 rows = cursor.fetchall()
                 if not rows:
                     no_row.append(i) #반출 데이터가 없는 뷰 리스트
-                    break
+                    # break
                 writer.writerows(rows)
             cursor.close()
             conn.close()
-            print(no_row)
+        print(no_row)
         
 
         
