@@ -37,19 +37,21 @@ class export_data_to_csv_operator(BaseOperator):
             conn = hook.get_conn()
             cursor = conn.cursor()
             cursor.execute(sql)
-            
+            rows = cursor.fetchall() #row 확인
+
+            if not rows:
+                no_row.append(i) #반출 데이터가 없는 뷰 리스트
+                continue
             columns = [columns[0] for columns in cursor.description]
+
+            cursor.close()
+            conn.close()
 
             with open(f'/opt/airflow/output/{i}.csv','w',newline='',encoding='utf-8') as f:
                 writer = csv.writer(f)
                 writer.writerow(columns)
-                rows = cursor.fetchall()
-                if not rows:
-                    no_row.append(i) #반출 데이터가 없는 뷰 리스트
-                    continue
                 writer.writerows(rows)
-            cursor.close()
-            conn.close()
+            
         print(f'다음의 뷰는 데이터가 없습니다: {no_row}')
         
 
