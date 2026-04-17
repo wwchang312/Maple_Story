@@ -18,7 +18,7 @@ BI 툴에서 활용할 수 있도록 파이프라인 구축
 ## 시스템 아키텍처
 
 
-[이미지]
+<img width="700" alt="Image" src="https://github.com/user-attachments/assets/0e1abb1b-326a-478c-a814-672399ad4102" />
 
 
 ## 주요 기능
@@ -30,7 +30,7 @@ BI 툴에서 활용할 수 있도록 파이프라인 구축
 ## 데이터 처리 흐름 (Pipeline)
 
 
-[이미지]
+<img width="1244" alt="Image" src="https://github.com/user-attachments/assets/8a79e961-9375-4a67-bbad-99780f89b392" />
 
 
 ## 주의사항
@@ -58,14 +58,16 @@ BI 툴에서 활용할 수 있도록 파이프라인 구축
 
 -------
 
-[이미지]
+<img width="600"  alt="Image" src="https://github.com/user-attachments/assets/ab53f5b0-80a7-4bd2-a653-9d9ea53dbd9f" />
+<img width="300"  alt="Image" src="https://github.com/user-attachments/assets/1270553b-6ec0-4e9d-a9f3-cd9d1f8ce00f" />
 
+-------
 
-- 테이블 정의 규칙
-  - 최상위 key : 컬럼
-  - 최상위 value : 값 
+#### 테이블 정의 규칙
+- 최상위 key : 컬럼
+- 최상위 value : 값 
 
-[이미지]
+<img width="940" alt="Image" src="https://github.com/user-attachments/assets/01bc727b-660a-4bb6-90fd-1bf740f6e43c" />
 
 
 #### 참고 코드
@@ -97,19 +99,19 @@ BI 툴에서 활용할 수 있도록 파이프라인 구축
 - API key 변수 등록 (x-nxopen-api-key)
 
   
-[이미지]
+<img width="700"  alt="Image" src="https://github.com/user-attachments/assets/35c1f99c-d7cc-4931-9b1e-b8b884315990" />
 
 
 - DB 접속정보 등록 (conn-db-mssql-maple)
 
   
-[이미지]
+<img width="700" alt="Image" src="https://github.com/user-attachments/assets/31b53cd6-7332-4475-9227-93b6667ae844" />
 
 
 - pool 설정 (필요시 변경)
 
 
-[이미지]
+<img width="700" alt="Image" src="https://github.com/user-attachments/assets/23cb310c-9d56-4223-81c8-1f473a29b593" />
 
 
 ### 4. DAG_Maple_Character_List_API DAG 스케줄 및 unpause 상태 확인
@@ -119,38 +121,37 @@ BI 툴에서 활용할 수 있도록 파이프라인 구축
 - 해당 태스크가 선행되어야 후행 캐릭터 정보 수집 DAG 정상 수행 가능
 
 
-[이미지]
+<img width="700"  alt="Image" src="https://github.com/user-attachments/assets/1c1fa71a-6631-4053-82e9-c7aee61a7668" />
 
 
 - DAG 정상 실행 시, vw_character_list로 다음과 같이 계정내 캐릭터 List 조회 가능
-[이미지]
 
+
+<img width="700" alt="Image" src="https://github.com/user-attachments/assets/4b9a3c96-7614-4ba5-957b-35aa2e18ce59" />
 
 
 ### 5. DAG 실행 (DAG_Maple_Character_Basic_API)
 
-- "DAG_Maple_Character_Basic_API" DAG 실행시, Asset 의존 관계로 나머지 API 호출 DAG 실행
+- *"DAG_Maple_Character_Basic_API" DAG 실행시, Asset 의존 관계로 나머지 API 호출 DAG 실행*
 - 캐릭터명 입력
   - vw_character_list 뷰에서 입력된 캐릭터 명에 해당하는 ocid 반환
   - 없으면 skip
 - 조회 시작일/종료일 : default 값은 today()
 
-[이미지]
+<img width="700"  alt="Image" src="https://github.com/user-attachments/assets/b7ad3f4a-6798-42f0-9a1f-48a21cc4a08d" />
 
 - DB 정상 적재시,
 
 - Raw 테이블
 
-
-[이미지]
+<img width="700"  alt="Image" src="https://github.com/user-attachments/assets/ebfc8cfb-f954-4df7-8268-d977cf4cbaa5" />
 
 *챌린저스서버 종료로 인한 캐릭터 ocid 변경으로 중복된 캐릭터 명이 발생함*
 
 
 - History 테이블
 
-
-[이미지] 
+<img width="700"  alt="Image" src="https://github.com/user-attachments/assets/bd325840-9cbb-4cfd-815a-ac9968c6c1ce" />
 
 *'렌'은 정상적으로 들어왔지만 '아크메이지(썬,콜)'의 경우에는 정상적으로 들어오지 못함.*
 
@@ -174,7 +175,7 @@ BI 툴에서 활용할 수 있도록 파이프라인 구축
 
 #### View 예시
 
-[이미지]
+<img width="700"  alt="Image" src="https://github.com/user-attachments/assets/49440f37-1af8-4ebb-9137-723153145965" />
 
 - 위와 같이 Raw 테이블에서 JSON 형태 데이터를 파싱하여, 각각 부위별 장비아이템 조회 가능
 
@@ -186,4 +187,4 @@ BI 툴에서 활용할 수 있도록 파이프라인 구축
 
 - 다음과 같이 로컬PC의 디렉토리로 추출된 것을 확인할 수 있음
 
-[이미지]
+<img width="600" alt="Image" src="https://github.com/user-attachments/assets/6b5ff9c4-62c3-4100-946d-73647a7405cb" />
